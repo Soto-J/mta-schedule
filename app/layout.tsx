@@ -27,7 +27,7 @@ export default function RootLayout({
           themes={["light", "dark", "system"]}
         >
           <Navbar />
-          <main className="max-w-7xl mx-auto mt-20">{children}</main>
+          <main className="max-w-7xl mx-auto pt-40 pb-20">{children}</main>
         </ThemeProvider>
       </body>
     </html>
