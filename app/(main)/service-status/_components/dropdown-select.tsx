@@ -22,7 +22,11 @@ import {
 } from "@/components/ui/popover";
 import { subwayLines } from "./subway-lines";
 
-export function DropdownSelect() {
+type DropdownSelectProps = {
+  selectedValue: (value: string) => void;
+};
+
+export function DropdownSelect({ selectedValue }: DropdownSelectProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -33,7 +37,7 @@ export function DropdownSelect() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[150px] justify-between"
         >
           {value ? (
             <Image
@@ -48,9 +52,9 @@ export function DropdownSelect() {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[100px] p-0">
         <Command>
-          <CommandInput placeholder="Search subway lines..." />
+          <CommandInput placeholder="Search..." />
           <CommandEmpty>No Subways found.</CommandEmpty>
           <CommandGroup>
             <ScrollArea className="h-64">
@@ -59,9 +63,12 @@ export function DropdownSelect() {
                   key={line.value}
                   value={line.value}
                   onSelect={(currentValue) => {
-                    setValue(
-                      currentValue === value ? "" : currentValue.toUpperCase()
+                    setValue((prevValue) =>
+                      prevValue === currentValue.toUpperCase()
+                        ? ""
+                        : currentValue.toUpperCase()
                     );
+                    selectedValue(currentValue.toUpperCase());
                     setOpen(false);
                   }}
                 >
