@@ -27,6 +27,12 @@ export async function GET(req: Request) {
       }
     );
 
+    if (response.status !== 200) {
+      return new NextResponse(`${response.statusText}`, {
+        status: response.status,
+      });
+    }
+
     const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
       new Uint8Array(response.data)
     );
@@ -45,6 +51,6 @@ export async function GET(req: Request) {
 
     return NextResponse.json(updatedFeed);
   } catch (error) {
-    throw new Error();
+    throw new NextResponse(`Iternal Error`, { status: 500 });
   }
 }
