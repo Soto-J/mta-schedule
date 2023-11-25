@@ -29,7 +29,7 @@ const MapsPage = () => {
   const findNearestSubwayStation = async () => {
     try {
       const url = qs.stringifyUrl({
-        url: "api/subway/nearest-station",
+        url: "/api/subway/nearest-station",
         query: {
           latitude: position?.[0],
           longitude: position?.[1],
