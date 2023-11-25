@@ -3,7 +3,7 @@ type ServiceStatusLayoutProps = {
 };
 
 const ServiceStatusLayout = ({ children }: ServiceStatusLayoutProps) => {
-  return <div className="bg-blue-500 h-full">{children}</div>;
+  return <div className="h-full bg-blue-500">{children}</div>;
 };
 
 export default ServiceStatusLayout;

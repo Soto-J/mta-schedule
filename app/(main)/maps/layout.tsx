@@ -5,7 +5,7 @@ type MapsLayoutProps = {
 const MapsLayout = ({ children }: MapsLayoutProps) => {
   return (
     <main>
-      <h2 className="font-bold text-6xl text-center">Maps</h2>
+      <h2 className="text-center text-6xl font-bold">Maps</h2>
       {children}
     </main>
   );

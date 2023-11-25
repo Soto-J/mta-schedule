@@ -66,7 +66,7 @@ export function DropdownSelect({ selectedValue }: DropdownSelectProps) {
                     setValue((prevValue) =>
                       prevValue === currentValue.toUpperCase()
                         ? ""
-                        : currentValue.toUpperCase()
+                        : currentValue.toUpperCase(),
                     );
                     selectedValue(currentValue.toUpperCase());
                     setOpen(false);
@@ -75,7 +75,7 @@ export function DropdownSelect({ selectedValue }: DropdownSelectProps) {
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === line.value ? "opacity-100" : "opacity-0"
+                      value === line.value ? "opacity-100" : "opacity-0",
                     )}
                   />
                   <Image

@@ -17,7 +17,7 @@ const MapsPage = () => {
         loading: () => <p>A map is loading</p>,
         ssr: false,
       }),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const MapsPage = () => {
   return (
     <div className="">
       <div className="">
-        <Map center={position} className="h-[35vh] w-96 rounded-lg z-10" />
+        <Map center={position} className="z-10 h-[35vh] w-96 rounded-lg" />
       </div>
       <Button onClick={findNearestSubwayStation}>Search</Button>
     </div>

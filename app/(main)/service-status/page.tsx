@@ -14,7 +14,7 @@ const ServiceStatusPage = () => {
   useEffect(() => {
     console.log(selectedLine);
   }, [selectedLine]);
-  
+
   const status = async () => {
     try {
       const response = await axios.get("/api/service-status/subway-alerts");
@@ -32,7 +32,7 @@ const ServiceStatusPage = () => {
 
   return (
     <div className="">
-      <h2 className="text-center font-bold text-6xl mb-8">Service Status</h2>
+      <h2 className="mb-8 text-center text-6xl font-bold">Service Status</h2>
 
       <div className="ml-auto max-w-fit">
         <DropdownSelect
