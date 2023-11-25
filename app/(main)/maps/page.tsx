@@ -9,7 +9,7 @@ import qs from "query-string";
 import { Button } from "@/components/ui/button";
 
 const MapsPage = () => {
-  const [position, setPosition] = useState<[number, number]>();
+  const [position, setPosition] = useState<number[]>();
 
   const Map = useMemo(
     () =>
@@ -28,13 +28,17 @@ const MapsPage = () => {
 
   const findNearestSubwayStation = async () => {
     try {
+      const query = {
+        latitude: position?.[0],
+        longitude: position?.[1],
+      };
+
       const url = qs.stringifyUrl({
         url: "/api/subway/nearest-station",
-        query: {
-          latitude: position?.[0],
-          longitude: position?.[1],
-        },
+        query,
       });
+
+      console.log(url);
 
       const response = await axios.get(url);
 
@@ -47,7 +51,7 @@ const MapsPage = () => {
   return (
     <div className="">
       <div className="">
-        <Map center={position} className="h-[35vh] w-96 rounded-lg" />
+        <Map center={position} className="h-[35vh] w-96 rounded-lg z-10" />
       </div>
       <Button onClick={findNearestSubwayStation}>Search</Button>
     </div>
