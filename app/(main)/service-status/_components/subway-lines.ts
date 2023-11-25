@@ -1,4 +1,4 @@
-import Image from "next/image";
+// https://iconduck.com/sets/mta-subway-bullet-icons
 
 export const subwayLines = [
   {
