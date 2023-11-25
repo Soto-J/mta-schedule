@@ -1,18 +1,18 @@
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-
-
+// **** Error occurred prerendering page "/api/subway/nearest-station" ****
 export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
+    // console.log(req.url);
+    // const { searchParams } = new URL(req.url);
+    // const latitude = searchParams.get("latitude");
+    // const longitude = searchParams.get("longitude");
 
-    const latitude = searchParams.get("latitude");
-    const longitude = searchParams.get("longitude");
-
-    if (!latitude || !longitude) {
-      return new NextResponse(`Bad Request`, { status: 400 });
-    }
+    // console.log({ latitude, longitude });
+    // if (!latitude || !longitude) {
+    //   return new NextResponse(`Bad Request`, { status: 400 });
+    // }
 
     // const response = await axios.get(
     //   `https://dev.socrata.com/foundry/data.ny.gov/i9wp-a4ja`
