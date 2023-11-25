@@ -1,14 +1,9 @@
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-type Params = {
-  params: {
-    station_latitude: number;
-    station_longitude: number;
-  };
-};
 
-export async function GET(req: Request, { params }: Params) {
+
+export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
 
