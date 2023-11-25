@@ -6,7 +6,7 @@ import HomeTabs from "./_components/home-tabs";
 export default function Home() {
   return (
     <div className="flex items-center justify-center">
-      <h2 className="flex bg-red-500 text-3xl font-semibold">
+      <h2 className="hidden bg-red-500 text-3xl font-semibold md:flex">
         <Link href="/service-status">Service Status</Link>
       </h2>
 
