@@ -1,7 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import axios from "axios";
+
+import qs from "query-string";
+
+import { Button } from "@/components/ui/button";
 
 const MapsPage = () => {
   const [position, setPosition] = useState<[number, number]>();
@@ -21,21 +26,31 @@ const MapsPage = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(position);
-  }, [position]);
+  const findNearestSubwayStation = async () => {
+    try {
+      const url = qs.stringifyUrl({
+        url: "api/subway/nearest-station",
+        query: {
+          latitude: position?.[0],
+          longitude: position?.[1],
+        },
+      });
+
+      const response = await axios.get(url);
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <main>
-      <h2 className="font-bold text-6xl text-center">Maps</h2>
-
-      <div className="mt-10">
-        <Map
-          center={position}
-          className="h-[35vh] w-96 rounded-lg"
-        />
+    <div className="">
+      <div className="">
+        <Map center={position} className="h-[35vh] w-96 rounded-lg" />
       </div>
-    </main>
+      <Button onClick={findNearestSubwayStation}>Search</Button>
+    </div>
   );
 };
 
