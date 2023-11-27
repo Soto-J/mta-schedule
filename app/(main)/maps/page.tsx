@@ -34,11 +34,9 @@ const MapsPage = () => {
       };
 
       const url = qs.stringifyUrl({
-        url: "/api/subway/nearest-station",
+        url: "api/subway/nearest-station",
         query,
       });
-
-      console.log(url);
 
       const response = await axios.get(url);
 
