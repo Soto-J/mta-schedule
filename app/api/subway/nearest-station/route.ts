@@ -1,30 +1,28 @@
-import axios from "axios";
 import { NextResponse } from "next/server";
+import axios from "axios";
 
-// **** Error occurred prerendering page "/api/subway/nearest-station" ****
+export const dynamic = "force-dynamic"; // defaults to force-static
+
 export async function GET(req: Request) {
   try {
-    // console.log(req.url);
-    // const { searchParams } = new URL(req.url);
-    // const latitude = searchParams.get("latitude");
-    // const longitude = searchParams.get("longitude");
+    const { searchParams } = new URL(req.url);
 
-    // console.log({ latitude, longitude });
-    // if (!latitude || !longitude) {
-    //   return new NextResponse(`Bad Request`, { status: 400 });
-    // }
+    const latitude = searchParams.get("latitude");
+    const longitude = searchParams.get("longitude");
 
-    // const response = await axios.get(
-    //   `https://dev.socrata.com/foundry/data.ny.gov/i9wp-a4ja`
-    // );
+    if (!latitude || !longitude) {
+      return new NextResponse(`Bad Request`, { status: 400 });
+    }
 
-    // if (response.status !== 200) {
-    //   return new NextResponse(`${response.statusText}`, {
-    //     status: response.status,
-    //   });
-    // }
+    const latitudeRadians = Number(latitude) * (Math.PI / 180);
+    const longitudeRadians = Number(longitude) * (Math.PI / 180);
 
-    return NextResponse.json({ message: "Hello World" });
+    const response = await axios.get(
+      `https://dev.socrata.com/foundry/data.ny.gov/i9wp-a4ja`,
+    );
+
+    console.log(response)
+    return NextResponse.json(response);
   } catch (error) {
     throw new NextResponse(`Iternal Error`, { status: 500 });
   }
