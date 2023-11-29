@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 const Navbar = () => {
   const navigationLinks = (
@@ -25,11 +26,13 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-red-500 h-18 border-b shadow-md p-4">
-      <div className="flex justify-between items-center px-10">
-        <Link href="/">LOGO</Link>
+    <nav className="h-18 border-b p-4 shadow-md dark:bg-muted">
+      <div className="flex items-center justify-between md:px-10">
+        <Link href="/">
+          <Image src="/images/logo.svg" alt="Logo" width={50} height={50} />
+        </Link>
 
-        <div className="hidden md:flex gap-x-8 text-lg">{navigationLinks}</div>
+        <div className="hidden gap-x-8 text-lg md:flex">{navigationLinks}</div>
 
         <div className="flex gap-x-8">
           <Sheet>
