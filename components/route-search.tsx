@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 const url =
   "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace";
 
-const Testing = () => {
+const RouteSearch = () => {
   const search = async () => {
     try {
       const response = await axios.get("/api/subway");
@@ -25,4 +25,4 @@ const Testing = () => {
   );
 };
 
-export default Testing;
+export default RouteSearch;

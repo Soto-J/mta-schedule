@@ -1,18 +1,17 @@
 import Link from "next/link";
 
-import Testing from "@/components/testing";
-import HomeTabs from "./_components/home-tabs";
+import RouteSearch from "@/components/route-search";
+import HomeTabs from "../components/tabs/home-tabs";
+import ServiceAlertButton from "@/components/service-alert-button";
 
 export default function Home() {
   return (
     <div className="">
-      {/* <h2 className="hidden bg-red-500 text-3xl font-semibold md:flex">
-        <Link href="/service-status">Service Status</Link>
-      </h2> */}
-
       <HomeTabs />
 
-      {/* <Testing /> */}
+      <div className="mx-auto mt-4 max-w-fit">
+        <ServiceAlertButton />
+      </div>
     </div>
   );
 }

@@ -10,7 +10,7 @@ type StatusCardProps = {
 
 const StatusCard = ({ status, title, trainIcons }: StatusCardProps) => {
   return (
-    <Card>
+    <Card key={title}>
       <CardHeader>
         <CardTitle className="text-xl">{title}</CardTitle>
       </CardHeader>
