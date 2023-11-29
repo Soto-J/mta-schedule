@@ -2,10 +2,17 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { Poppins } from "next/font/google";
+
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import Navbar from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "MTA Schedule",
@@ -19,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} h-full`}>
+      <body className={`${poppins.className} dark:bg-[#100037]`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -27,7 +34,9 @@ export default function RootLayout({
           themes={["light", "dark", "system"]}
         >
           <Navbar />
-          <main className="mx-auto w-[95%] max-w-7xl py-20">{children}</main>
+          <main className="mx-auto w-[95%] max-w-7xl py-20 ">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>
