@@ -3,12 +3,16 @@
 import { Button } from "./ui/button";
 import axios from "axios";
 
-const ServiceAlertButton = () => {
+type ServiceAlertButtonProps = {
+  getData: (data: any) => void;
+};
+
+const ServiceAlertButton = ({ getData }: ServiceAlertButtonProps) => {
   const search = async () => {
     try {
       const response = await axios.get("/api/subway/service-alerts");
 
-      console.log(response.data);
+      getData(response.data);
     } catch (error) {
       console.log({ error });
     }
