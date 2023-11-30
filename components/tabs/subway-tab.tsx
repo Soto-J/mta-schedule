@@ -1,19 +1,26 @@
-import React from "react";
-import { Card, CardHeader, CardTitle } from "../ui/card";
 import StatusCard from "./status-card";
 
-const fakeData = [
-  { status: "Delays" },
-  { status: "Planned Work" },
-  { status: "No Scheduled Service" },
-];
+type SubwayTabProps = {
+  subwayData: any;
+};
 
-const SubwayTab = () => {
+const SubwayTab = ({ subwayData }: SubwayTabProps) => {
+  subwayData && console.log(subwayData);
+
   return (
-    <div>
-      {fakeData.map((data) => (
-        <StatusCard title={data.status} trainIcons={[]} />
-      ))}
+    <div className="flex justify-between">
+      <div className="">
+        <StatusCard title="Delays" trains={subwayData?.delayFeed.trains} />
+        <StatusCard
+          title="Planned Work"
+          trains={subwayData?.plannedWorkFeed.trains}
+        />
+        <StatusCard title="No Scheduled Service" />
+      </div>
+
+      <div className="grow">
+        <StatusCard title="No Active Alerts" />
+      </div>
     </div>
   );
 };
