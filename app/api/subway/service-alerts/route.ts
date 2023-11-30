@@ -24,11 +24,52 @@ export async function GET(req: Request) {
       new Uint8Array(response.data),
     );
 
-    console.log(feed);
+    if (!feed) {
+      return new NextResponse(`No data`, { status: 404 });
+    }
 
-    const alerts = feed.entity.map((entity) => entity.alert);
+    // DELAY ALERTS
+    const delayAlerts = feed.entity.filter((entity) =>
+      entity.id.includes("alert"),
+    );
 
-    return NextResponse.json(feed);
+    const delayedTrains = delayAlerts?.reduce((trains: any, data: any) => {
+      data.alert.informedEntity.forEach((entity: any) => {
+        if (entity.routeId) {
+          trains?.add(entity.routeId);
+        }
+      });
+
+      return trains;
+    }, new Set());
+
+    // PLANNED WORK ALERTS
+    const plannedWorkAlerts = feed.entity.filter((entity) =>
+      entity.id.includes("planned_work"),
+    );
+    const plannedWorkTrains = plannedWorkAlerts?.reduce(
+      (trains: any, data: any) => {
+        data.alert.informedEntity.forEach((entity: any) => {
+          if (entity.routeId) {
+            trains?.add(entity.routeId);
+          }
+        });
+
+        return trains;
+      },
+      new Set(),
+    );
+
+    return NextResponse.json({
+      delayFeed: {
+        alert: delayAlerts,
+        trains: Array.from(delayedTrains),
+      },
+      plannedWorkFeed: {
+        alert: plannedWorkAlerts,
+        trains: Array.from(plannedWorkTrains),
+      },
+    });
   } catch (error) {
     throw new NextResponse(`Iternal Error`, { status: 500 });
   }
