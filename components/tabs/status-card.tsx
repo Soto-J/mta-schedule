@@ -9,7 +9,13 @@ type StatusCardProps = {
 
 const StatusCard = ({ title, trains }: StatusCardProps) => {
   trains = trains?.filter((train: string) => {
-    return train !== "GS" && train !== "6X" && train !== "SI" && train !== "7X";
+    return (
+      train !== "GS" &&
+      train !== "6X" &&
+      train !== "SI" &&
+      train !== "7X" &&
+      train !== "FS"
+    );
   });
 
   return (
