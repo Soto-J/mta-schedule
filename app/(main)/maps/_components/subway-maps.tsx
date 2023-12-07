@@ -37,7 +37,9 @@ const SubwayMaps = () => {
           mt-8
           flex
           max-w-4xl
+          flex-col
           gap-8
+          sm:flex-row
         "
       >
         {MAPS.map((map) => (
