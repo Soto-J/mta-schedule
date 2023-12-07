@@ -24,6 +24,8 @@ export async function GET(req: Request) {
       new Uint8Array(response.data),
     );
 
+    console.log(feed);
+
     if (!feed) {
       return new NextResponse(`No data`, { status: 404 });
     }
@@ -32,6 +34,13 @@ export async function GET(req: Request) {
     const delayAlerts = feed.entity.filter((entity) =>
       entity.id.includes("alert"),
     );
+    const testAlerts = feed.entity.filter((entity) => {
+      const now = Number(new Date());
+      return (
+        entity.id.includes("alert") &&
+        entity.alert?.activePeriod?.[0].start <= now
+      );
+    });
 
     const delayedTrains = delayAlerts?.reduce((trains: any, data: any) => {
       data.alert.informedEntity.forEach((entity: any) => {
@@ -44,9 +53,30 @@ export async function GET(req: Request) {
     }, new Set());
 
     // PLANNED WORK ALERTS
-    const plannedWorkAlerts = feed.entity.filter((entity) =>
-      entity.id.includes("planned_work"),
-    );
+    const plannedWorkAlerts = feed.entity.filter((entity) => {
+      // CURRENT TIME WINDOW
+      const currentDate = new Date();
+      const sixHoursLater = new Date(
+        currentDate.getTime() + 6 * 60 * 60 * 1000,
+      );
+
+      // PLANNED WINDOW
+      const startDate = new Date(entity.alert?.activePeriod?.[0].start * 1000);
+      const endDate = new Date(entity.alert?.activePeriod?.[0].end * 1000);
+
+      return (
+        entity.id.includes("planned_work") &&
+        ((currentDate <= startDate && sixHoursLater >= startDate) ||
+          currentDate >= startDate && currentDate <= endDate)
+      );
+
+      // return (
+      //   entity.id.includes("planned_work") &&
+      //   ((sixHoursLater >= startDate && sixHoursLater <= endDate) ||
+      //     (currentDate >= startDate && currentDate <= endDate))
+      // );
+    });
+
     const plannedWorkTrains = plannedWorkAlerts?.reduce(
       (trains: any, data: any) => {
         data.alert.informedEntity.forEach((entity: any) => {
@@ -62,13 +92,14 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       delayFeed: {
-        alert: delayAlerts,
+        alerts: delayAlerts,
         trains: Array.from(delayedTrains),
       },
       plannedWorkFeed: {
-        alert: plannedWorkAlerts,
+        alerts: plannedWorkAlerts,
         trains: Array.from(plannedWorkTrains),
       },
+      feed,
     });
   } catch (error) {
     throw new NextResponse(`Iternal Error`, { status: 500 });

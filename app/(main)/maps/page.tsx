@@ -71,7 +71,7 @@ const MapsPage = () => {
       <BusMaps />
 
       <div className="ml-auto max-w-fit">
-        <Button onClick={findNearestSubwayStation}>Search</Button>B
+        <Button onClick={findNearestSubwayStation}>Search</Button>
       </div>
     </div>
   );
