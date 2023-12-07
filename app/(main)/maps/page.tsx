@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { PuffLoader } from "react-spinners";
 import SubwayMaps from "./_components/subway-maps";
 import BusMaps from "./_components/bus-maps";
+import BusServiceGuide from "./_components/bus-service-guide";
 
 const MapsPage = () => {
   const [position, setPosition] = useState<number[]>();
@@ -70,8 +71,10 @@ const MapsPage = () => {
 
       <BusMaps />
 
+      <BusServiceGuide />
+
       <div className="ml-auto max-w-fit">
-        <Button onClick={findNearestSubwayStation}>Search</Button>
+        <Button onClick={findNearestSubwayStation}>Search</Button>B
       </div>
     </div>
   );
