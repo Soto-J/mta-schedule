@@ -14,12 +14,21 @@ const BusServiceGuide = () => {
     <div className="mt-24">
       <h2 className="text-4xl font-bold">Borough Bus Service Guide</h2>
 
-      <ul className="mt-8 grid grid-cols-2 gap-5">
+      <ul className="mt-8 grid md:grid-cols-2 gap-y-5">
         {SERVICE_GUIDE_LINKS.map((link) => (
           <li key={link.title}>
-            <a href={link.href} className="flex gap-3 hover:text-sky-500">
-              {link.title}
-              <Download />
+            <a
+              href={link.href}
+              className="
+                flex 
+                max-w-fit
+                items-center
+                gap-3
+                hover:text-sky-500
+              "
+            >
+              <span className="">{link.title}</span>
+              <Download size={20} className="" />
             </a>
           </li>
         ))}
