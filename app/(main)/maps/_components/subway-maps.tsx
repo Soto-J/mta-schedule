@@ -27,7 +27,9 @@ const MAPS = [
 const SubwayMaps = () => {
   return (
     <div className="mt-12">
-      <h2 className="text-4xl font-semibold">New York City Subway Maps</h2>
+      <h2 className="text-center text-4xl font-semibold">
+        New York City Subway Maps
+      </h2>
 
       <div
         className="
