@@ -41,7 +41,7 @@ const SubwayMaps = () => {
         "
       >
         {MAPS.map((map) => (
-          <Card className="overflow-hidden shadow-lg">
+          <Card className="overflow-hidden shadow-lg" key={map.title}>
             <CardContent className="p-0">
               <Image
                 src={map.mapImg!}
