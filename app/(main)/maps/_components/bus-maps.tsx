@@ -10,13 +10,13 @@ import Image from "next/image";
 
 const MAPS = [
   {
-    mapImg: "/images/maps/subway/subway-map-day.svg",
+    mapImg: "/images/maps/bus/bus-map-bronx.jpg",
     alt: "Bronx",
     title: "Bronx Bus Map",
     discription: "A map of the Bronx bus routes.",
   },
   {
-    mapImg: "/images/maps/subway/subway-map-night.svg",
+    mapImg: "/images/maps/bus/bus-map-brooklyn.jpg",
     alt: "Brooklen",
     title: "Brooklyn Bus Map",
     discription: "A map of the Brooklyn bus routes.",
@@ -59,8 +59,9 @@ const BusMaps = () => {
           mx-auto
           mt-8
           grid
-          grid-cols-2
+          grid-cols-1
           gap-8
+          sm:grid-cols-2
           lg:grid-cols-3
         "
       >
