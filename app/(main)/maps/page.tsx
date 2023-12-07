@@ -7,23 +7,33 @@ import axios from "axios";
 import qs from "query-string";
 
 import { Button } from "@/components/ui/button";
+import { PuffLoader } from "react-spinners";
+import SubwayMaps from "./_components/subway-maps";
+import BusMaps from "./_components/bus-maps";
 
 const MapsPage = () => {
   const [position, setPosition] = useState<number[]>();
+  const [showMap, setShowMap] = useState(false);
 
   const Map = useMemo(
     () =>
       dynamic(() => import("@/components/map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => <PuffLoader size={200} color="white" />,
         ssr: false,
       }),
     [],
   );
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setPosition([position.coords.latitude, position.coords.longitude]);
-    });
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setPosition([position.coords.latitude, position.coords.longitude]);
+        setShowMap(true);
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }, []);
 
   const findNearestSubwayStation = async () => {
@@ -49,9 +59,20 @@ const MapsPage = () => {
   return (
     <div className="">
       <div className="">
-        <Map center={position} className="z-10 h-[35vh] w-96 rounded-lg" />
+        {showMap ? (
+          <Map center={position} className="z-10 h-[35vh] w-96 rounded-lg" />
+        ) : (
+          <PuffLoader size={200} color="white" />
+        )}
       </div>
-      <Button onClick={findNearestSubwayStation}>Search</Button>
+
+      <SubwayMaps />
+
+      <BusMaps />
+
+      <div className="ml-auto max-w-fit">
+        <Button onClick={findNearestSubwayStation}>Search</Button>B
+      </div>
     </div>
   );
 };
