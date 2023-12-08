@@ -69,18 +69,20 @@ const BusMaps = () => {
           <Card className="overflow-hidden shadow-lg" key={map.title}>
             <CardContent className="p-0">
               <Image
-                src={map.mapImg!}
-                alt="ds"
-                className="h-full w-full"
-                width={100}
-                height={100}
+                priority
+                src={map.mapImg || ""}
+                alt={map.alt || ""}
+                quality={100}
+                width={400}
+                height={400}
+                className=" h-full w-full"
               />
             </CardContent>
-
+            
             <CardHeader>
               <CardTitle>{map.title}</CardTitle>
-              <CardDescription>
-                <p className="text-lg">{map.discription}</p>
+              <CardDescription className="text-lg">
+                {map.discription}
               </CardDescription>
             </CardHeader>
           </Card>
