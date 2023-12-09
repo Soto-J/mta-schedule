@@ -38,16 +38,16 @@ const StatusCard = ({ title, alertFeeds }: StatusCardProps) => {
                 return;
               }
 
+              const src = isNaN(trainLine)
+                ? `/images/train-svgs/${trainLine.toLowerCase()}-letter.svg`
+                : `/images/train-svgs/${trainLine}-digit.svg`;
+
               return (
                 <div key={trainLine}>
                   <Dialog>
                     <DialogTrigger>
                       <Image
-                        src={
-                          isNaN(trainLine as any)
-                            ? `/images/train-svgs/${trainLine.toLowerCase()}-letter.svg`
-                            : `/images/train-svgs/${trainLine}-digit.svg`
-                        }
+                        src={src}
                         alt={trainLine}
                         width={30}
                         height={30}
@@ -56,22 +56,24 @@ const StatusCard = ({ title, alertFeeds }: StatusCardProps) => {
                     </DialogTrigger>
 
                     <DialogContent>
-                      {value.map((alert: any, i: number) => {
-                        const description =
-                          alert.descriptionText?.translation?.[0].text;
+                      <ScrollArea className="max-h-96 p-1.5">
+                        {value.map((alert: any, i: number) => {
+                          const description =
+                            alert.descriptionText?.translation?.[0].text;
 
-                        const header = alert.headerText.translation?.[0].text;
+                          const header = alert.headerText.translation?.[0].text;
 
-                        return (
-                          <ScrollArea key={i}>
-                            <DialogHeader>{header}</DialogHeader>
+                          return (
+                            <div>
+                              <DialogHeader>{header}</DialogHeader>
 
-                            <DialogDescription className="my-4">
-                              {description}
-                            </DialogDescription>
-                          </ScrollArea>
-                        );
-                      })}
+                              <DialogDescription className="my-4">
+                                {description}
+                              </DialogDescription>
+                            </div>
+                          );
+                        })}
+                      </ScrollArea>
                     </DialogContent>
                   </Dialog>
                 </div>
