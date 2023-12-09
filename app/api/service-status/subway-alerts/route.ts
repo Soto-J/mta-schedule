@@ -24,77 +24,66 @@ export async function GET(req: Request) {
       new Uint8Array(response.data),
     );
 
-    console.log(feed);
-
     if (!feed) {
       return new NextResponse(`No data`, { status: 404 });
     }
 
     // DELAY ALERTS
-    const delayAlerts = feed.entity.filter((entity) =>
-      entity.id.includes("alert"),
-    );
+    const delayAlerts = feed.entity
+      .filter((entity) => entity.id.includes("alert"))
+      .reduce((obj, entity) => {
+        const trainLine = entity.alert?.informedEntity?.[0].routeId;
 
-    const delayedTrains = delayAlerts?.reduce((trains: any, data: any) => {
-      data.alert.informedEntity.forEach((entity: any) => {
-        if (entity.routeId) {
-          trains?.add(entity.routeId);
+        if (!trainLine) return;
+
+        if (!obj[trainLine]) {
+          obj[trainLine] = [];
         }
-      });
 
-      return trains;
-    }, new Set());
+        obj[trainLine].push(entity.alert);
+
+        return obj;
+      }, {} as any);
 
     // PLANNED WORK ALERTS - Window between now and 6 hours later
-    const plannedWorkAlerts = feed.entity.filter((entity) => {
-      // Current time window
-      const currentDate = new Date();
-      const sixHoursLater = new Date(
-        currentDate.getTime() + 6 * 60 * 60 * 1000,
-      );
-      // planned work window
-      const plannedStart = new Date(
-        entity.alert?.activePeriod?.[0].start * 1000,
-      );
-      const plannedEnd = new Date(entity.alert?.activePeriod?.[0].end * 1000);
+    const plannedWorkAlerts = feed.entity
+      .filter((entity) => {
+        // Current time window
+        const currentDate = new Date();
+        const sixHoursLater = new Date(
+          currentDate.getTime() + 6 * 60 * 60 * 1000,
+        );
+        // planned work window
+        const plannedStart = new Date(
+          entity.alert?.activePeriod?.[0].start * 1000,
+        );
+        const plannedEnd = new Date(entity.alert?.activePeriod?.[0].end * 1000);
 
-      // return (
-      //   entity.id.includes("planned_work") &&
-      //   ((currentDate <= plannedStart && sixHoursLater >= plannedStart) ||
-      //     (currentDate >= plannedStart && currentDate <= plannedEnd))
-      // );
+        return (
+          entity.id.includes("planned_work") &&
+          ((currentDate >= plannedStart && sixHoursLater <= plannedEnd) ||
+            (currentDate <= plannedStart && sixHoursLater >= plannedStart) ||
+            (currentDate >= plannedStart && currentDate <= plannedEnd) ||
+            (currentDate <= plannedStart && sixHoursLater >= plannedEnd))
+        );
+      })
+      .reduce((obj, entity) => {
+        const trainLine = entity.alert?.informedEntity?.[0].routeId;
 
-      return (
-        entity.id.includes("planned_work") &&
-        ((currentDate >= plannedStart && sixHoursLater <= plannedEnd) ||
-          (currentDate <= plannedStart && sixHoursLater >= plannedStart) ||
-          (currentDate >= plannedStart && currentDate <= plannedEnd) ||
-          (currentDate <= plannedStart && sixHoursLater >= plannedEnd))
-      );
-    });
+        if (!trainLine) return;
 
-    const plannedWorkTrains = plannedWorkAlerts?.reduce(
-      (trains: any, data: any) => {
-        data.alert.informedEntity.forEach((entity: any) => {
-          if (entity.routeId) {
-            trains?.add(entity.routeId);
-          }
-        });
+        if (!obj[trainLine]) {
+          obj[trainLine] = [];
+        }
 
-        return trains;
-      },
-      new Set(),
-    );
+        obj[trainLine].push(entity.alert);
+
+        return obj;
+      }, {} as any);
 
     return NextResponse.json({
-      delayFeed: {
-        alerts: delayAlerts,
-        trains: Array.from(delayedTrains),
-      },
-      plannedWorkFeed: {
-        alerts: plannedWorkAlerts,
-        trains: Array.from(plannedWorkTrains),
-      },
+      delayAlerts,
+      plannedWorkAlerts,
       feed,
     });
   } catch (error) {
