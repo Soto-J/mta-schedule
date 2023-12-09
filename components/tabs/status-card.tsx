@@ -1,23 +1,22 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
+
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTrigger,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import { ScrollArea } from "../ui/scroll-area";
 
 type StatusCardProps = {
   title?: string;
-  trains?: any;
+  alertFeeds?: any;
 };
 
-const StatusCard = ({ title, trains }: StatusCardProps) => {
-  trains = trains?.filter((train: string) => {
-    return (
-      train !== "GS" &&
-      train !== "6X" &&
-      train !== "SI" &&
-      train !== "7X" &&
-      train !== "FS"
-    );
-  });
-
+const StatusCard = ({ title, alertFeeds }: StatusCardProps) => {
   return (
     <Card className={title === `No Active Alerts` ? "h-full" : ""}>
       <CardHeader>
@@ -26,21 +25,58 @@ const StatusCard = ({ title, trains }: StatusCardProps) => {
 
       <CardContent>
         <div className="grid grid-cols-4 gap-y-3">
-          {trains &&
-            trains?.map((icon: string, index: number) => (
-              <div key={index}>
-                <Image
-                  src={
-                    isNaN(icon as any)
-                      ? `/images/train-svgs/${icon.toLowerCase()}-letter.svg`
-                      : `/images/train-svgs/${icon}-digit.svg`
-                  }
-                  alt="/"
-                  width={30}
-                  height={30}
-                />
-              </div>
-            ))}
+          {alertFeeds &&
+            Object.entries(alertFeeds)?.map(([trainLine, value]: any) => {
+              const NO_SVG_YET =
+                trainLine === "GS" ||
+                trainLine === "6X" ||
+                trainLine === "SI" ||
+                trainLine === "7X" ||
+                trainLine === "FS";
+
+              if (NO_SVG_YET) {
+                return;
+              }
+
+              return (
+                <div key={trainLine}>
+                  <Dialog>
+                    <DialogTrigger>
+                      <Image
+                        src={
+                          isNaN(trainLine as any)
+                            ? `/images/train-svgs/${trainLine.toLowerCase()}-letter.svg`
+                            : `/images/train-svgs/${trainLine}-digit.svg`
+                        }
+                        alt={trainLine}
+                        width={30}
+                        height={30}
+                        className="cursor-pointer"
+                      />
+                    </DialogTrigger>
+
+                    <DialogContent>
+                      {value.map((alert: any, i: number) => {
+                        const description =
+                          alert.descriptionText?.translation?.[0].text;
+
+                        const header = alert.headerText.translation?.[0].text;
+
+                        return (
+                          <ScrollArea key={i}>
+                            <DialogHeader>{header}</DialogHeader>
+
+                            <DialogDescription className="my-4">
+                              {description}
+                            </DialogDescription>
+                          </ScrollArea>
+                        );
+                      })}
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              );
+            })}
         </div>
       </CardContent>
     </Card>
