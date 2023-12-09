@@ -55,7 +55,7 @@ const StatusCard = ({ title, alertFeeds }: StatusCardProps) => {
                       />
                     </DialogTrigger>
 
-                    <DialogContent>
+                    <DialogContent className="w-[95%]">
                       <ScrollArea className="max-h-96 p-1.5">
                         {value.map((alert: any, i: number) => {
                           const description =
