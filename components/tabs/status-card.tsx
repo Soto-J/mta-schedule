@@ -64,7 +64,7 @@ const StatusCard = ({ title, alertFeeds }: StatusCardProps) => {
                           const header = alert.headerText.translation?.[0].text;
 
                           return (
-                            <div>
+                            <div key={i}>
                               <DialogHeader>{header}</DialogHeader>
 
                               <DialogDescription className="my-4">
