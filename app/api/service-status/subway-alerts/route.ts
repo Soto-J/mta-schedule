@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
 export async function GET(req: Request) {
@@ -29,45 +30,45 @@ export async function GET(req: Request) {
     }
 
     // DELAY ALERTS
-    const delayAlerts = feed.entity
-      .filter((entity) => entity.id.includes("alert"))
-      .reduce((obj, entity) => {
+    const delayAlerts = feed.entity.reduce((obj, entity) => {
+      if (entity.id.includes("alert")) {
         const trainLine = entity.alert?.informedEntity?.[0].routeId;
 
         if (!trainLine) return;
+
+        // obj = obj[trainLine].push(entity.alert) || [entity.alert];
 
         if (!obj[trainLine]) {
           obj[trainLine] = [];
         }
 
         obj[trainLine].push(entity.alert);
+      }
 
-        return obj;
-      }, {} as any);
+      return obj;
+    }, {} as any);
 
     // PLANNED WORK ALERTS - Window between now and 6 hours later
-    const plannedWorkAlerts = feed.entity
-      .filter((entity) => {
-        // Current time window
-        const currentDate = new Date();
-        const sixHoursLater = new Date(
-          currentDate.getTime() + 6 * 60 * 60 * 1000,
-        );
-        // planned work window
-        const plannedStart = new Date(
-          entity.alert?.activePeriod?.[0].start * 1000,
-        );
-        const plannedEnd = new Date(entity.alert?.activePeriod?.[0].end * 1000);
+    const plannedWorkAlerts = feed.entity.reduce((obj, entity) => {
+      // Six hour window
+      const currentDate = new Date();
+      const sixHoursLater = new Date(
+        currentDate.getTime() + 6 * 60 * 60 * 1000,
+      );
+      // planned work window
+      const plannedStart = new Date(
+        entity.alert?.activePeriod?.[0].start * 1000,
+      );
+      const plannedEnd = new Date(entity.alert?.activePeriod?.[0].end * 1000);
 
-        return (
-          entity.id.includes("planned_work") &&
-          ((currentDate >= plannedStart && sixHoursLater <= plannedEnd) ||
-            (currentDate <= plannedStart && sixHoursLater >= plannedStart) ||
-            (currentDate >= plannedStart && currentDate <= plannedEnd) ||
-            (currentDate <= plannedStart && sixHoursLater >= plannedEnd))
-        );
-      })
-      .reduce((obj, entity) => {
+      const isWithinWindow =
+        entity.id.includes("planned_work") &&
+        ((currentDate >= plannedStart && sixHoursLater <= plannedEnd) ||
+          (currentDate <= plannedStart && sixHoursLater >= plannedStart) ||
+          (currentDate >= plannedStart && currentDate <= plannedEnd) ||
+          (currentDate <= plannedStart && sixHoursLater >= plannedEnd));
+
+      if (isWithinWindow) {
         const trainLine = entity.alert?.informedEntity?.[0].routeId;
 
         if (!trainLine) return;
@@ -77,10 +78,15 @@ export async function GET(req: Request) {
         }
 
         obj[trainLine].push(entity.alert);
+      }
 
-        return obj;
-      }, {} as any);
+      return obj;
+    }, {} as any);
 
+    // TODO-1: Look for "no scheduled services" trains lines in feed
+
+    // TODO-2: Find no active alerts
+    // const noServiceAlerts = plannedWorkAlerts
     return NextResponse.json({
       delayAlerts,
       plannedWorkAlerts,
