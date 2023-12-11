@@ -9,7 +9,7 @@ const SubwayTab = ({ subwayData }: SubwayTabProps) => {
 
   return (
     <div className="flex justify-between">
-      <div className="">
+      <div className="flex-1">
         <StatusCard title="Delays" alertFeeds={subwayData?.delayAlerts} />
         <StatusCard
           title="Planned Work"
@@ -18,8 +18,11 @@ const SubwayTab = ({ subwayData }: SubwayTabProps) => {
         <StatusCard title="No Scheduled Service" />
       </div>
 
-      <div className="grow">
-        <StatusCard title="No Active Alerts" />
+      <div className="flex-1">
+        <StatusCard
+          title="No Active Alerts"
+          alertFeeds={subwayData?.noActiveAlerts}
+        />
       </div>
     </div>
   );
