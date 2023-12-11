@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 
+import { subwayLines } from "@/app/(main)/service-status/_components/subway-lines";
+
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
 export async function GET(req: Request) {
@@ -85,12 +87,40 @@ export async function GET(req: Request) {
 
     // TODO-1: Look for "no scheduled services" trains lines in feed
 
-    // TODO-2: Find no active alerts
-    // const noServiceAlerts = plannedWorkAlerts
+    // NO ACTIVE ALERTS
+    const activeLines = [
+      ...Object.keys(plannedWorkAlerts),
+      ...Object.keys(delayAlerts),
+    ];
+
+    const noActiveAlerts = subwayLines.reduce((arr, line) => {
+      const isNotActive = !activeLines.includes(line.value);
+
+      if (isNotActive) {
+        const alert = {
+          descriptionText: {
+            translation: [{ text: "No Active Alerts" }],
+          },
+          headerText: {
+            translation: [{ text: "No Active Alerts" }],
+          },
+        };
+
+        if (!arr[line.value]) {
+          arr[line.value] = [];
+        }
+
+        arr[line.value].push(alert);
+      }
+
+      return arr;
+    }, {} as any);
+
     return NextResponse.json({
+      feed,
       delayAlerts,
       plannedWorkAlerts,
-      feed,
+      noActiveAlerts,
     });
   } catch (error) {
     throw new NextResponse(`Iternal Error`, { status: 500 });
