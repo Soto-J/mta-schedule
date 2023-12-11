@@ -65,8 +65,11 @@ const StatusCard = ({ title, alertFeeds }: StatusCardProps) => {
 
                           return (
                             <div key={i}>
-                              <DialogHeader>{header}</DialogHeader>
-
+                              <DialogHeader>
+                                <DialogTitle className="text-start">
+                                  {header}
+                                </DialogTitle>
+                              </DialogHeader>
                               <DialogDescription className="my-4">
                                 {description}
                               </DialogDescription>
