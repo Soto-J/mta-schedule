@@ -15,7 +15,10 @@ const SubwayTab = ({ subwayData }: SubwayTabProps) => {
           title="Planned Work"
           alertFeeds={subwayData?.plannedWorkAlerts}
         />
-        <StatusCard title="No Scheduled Service" />
+        <StatusCard
+          title="No Scheduled Service"
+          alertFeeds={subwayData?.noScheduledServices}
+        />
       </div>
 
       <div className="flex-1">
