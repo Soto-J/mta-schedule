@@ -5,6 +5,26 @@ import { subwayLines } from "@/app/(main)/service-status/_components/subway-line
 
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
+// TODO: Fix types 
+type IAlert = GtfsRealtimeBindings.transit_realtime.IAlert;
+type Alert = {
+  [kay: string]: {
+    activePeriod: {
+      start: string;
+      end?: string;
+    }[];
+    headerText: {
+      translation: {
+        text: string;
+      }[];
+    }[];
+    informedEntity: {
+      routId?: string;
+      stopId?: string;
+    }[];
+  }[];
+};
+
 export async function GET(req: Request) {
   try {
     const response = await axios.get(
@@ -32,13 +52,11 @@ export async function GET(req: Request) {
     }
 
     // DELAY ALERTS
-    const delayAlerts = feed.entity.reduce((obj, entity) => {
+    const delayAlerts: IAlert[] = feed.entity.reduce((obj, entity) => {
       if (entity.id.includes("alert")) {
         const trainLine = entity.alert?.informedEntity?.[0].routeId;
 
         if (!trainLine) return;
-
-        // obj = obj[trainLine].push(entity.alert) || [entity.alert];
 
         if (!obj[trainLine]) {
           obj[trainLine] = [];
