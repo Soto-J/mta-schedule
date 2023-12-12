@@ -5,7 +5,7 @@ import { subwayLines } from "@/app/(main)/service-status/_components/subway-line
 
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
-// TODO: Fix types 
+// TODO: Fix types
 type IAlert = GtfsRealtimeBindings.transit_realtime.IAlert;
 type Alert = {
   [kay: string]: {
@@ -51,7 +51,7 @@ export async function GET(req: Request) {
       return new NextResponse(`No data`, { status: 404 });
     }
 
-    // DELAY ALERTS
+    // Delay Alerts
     const delayAlerts: IAlert[] = feed.entity.reduce((obj, entity) => {
       if (entity.id.includes("alert")) {
         const trainLine = entity.alert?.informedEntity?.[0].routeId;
@@ -68,14 +68,14 @@ export async function GET(req: Request) {
       return obj;
     }, {} as any);
 
-    // PLANNED WORK ALERTS - Window between now and 6 hours later
+    // Planned Work Alerts - Window between now and 6 hours later
     const plannedWorkAlerts = feed.entity.reduce((obj, entity) => {
       // Six hour window
       const currentDate = new Date();
       const sixHoursLater = new Date(
         currentDate.getTime() + 6 * 60 * 60 * 1000,
       );
-      // planned work window
+      // Planned work window
       const plannedStart = new Date(
         entity.alert?.activePeriod?.[0].start * 1000,
       );
@@ -103,14 +103,37 @@ export async function GET(req: Request) {
       return obj;
     }, {} as any);
 
-    // TODO-1: Look for "no scheduled services" trains lines in feed
+    // No Scheduled Services
+    const noScheduledServices = feed.entity.reduce((obj, entity) => {
+      const isNoService =
+        entity.alert?.headerText?.translation?.[0].text.includes("No") &&
+        entity.alert?.headerText?.translation?.[0].text.includes(
+          "trains running",
+        );
 
-    // NO ACTIVE ALERTS
+      if (isNoService) {
+        console.log(isNoService);
+        const trainLine = entity.alert?.informedEntity?.[0].routeId;
+
+        if (!trainLine) return obj;
+
+        if (!obj[trainLine]) {
+          obj[trainLine] = [];
+        }
+
+        obj[trainLine].push(entity.alert);
+      }
+
+      return obj;
+    }, {} as any);
+
     const activeLines = [
       ...Object.keys(plannedWorkAlerts),
       ...Object.keys(delayAlerts),
+      ...Object.keys(noScheduledServices),
     ];
 
+    // No Active Alerts
     const noActiveAlerts = subwayLines.reduce((arr, line) => {
       const isNotActive = !activeLines.includes(line.value);
 
@@ -134,13 +157,47 @@ export async function GET(req: Request) {
       return arr;
     }, {} as any);
 
+    // *******************TESTING
+    const test = feed.entity.reduce((obj, entity) => {
+      const currentDate = new Date();
+      const sixHoursLater = new Date(
+        currentDate.getTime() + 6 * 60 * 60 * 1000,
+      );
+      // planned work window
+      const plannedStart = new Date(
+        entity.alert?.activePeriod?.[0].start * 1000,
+      );
+      const plannedEnd = new Date(entity.alert?.activePeriod?.[0].end * 1000);
+
+      const isWithinWindow =
+        entity.id.includes("planned_work") &&
+        (sixHoursLater < plannedStart || currentDate > plannedEnd);
+
+      if (isWithinWindow) {
+        const trainLine = entity.alert?.informedEntity?.[0].routeId;
+
+        if (!trainLine) return;
+
+        if (!obj[trainLine]) {
+          obj[trainLine] = [];
+        }
+
+        obj[trainLine].push(entity.alert);
+      }
+
+      return obj;
+    }, {} as any);
+
     return NextResponse.json({
       feed,
+      test,
       delayAlerts,
       plannedWorkAlerts,
       noActiveAlerts,
+      noScheduledServices,
     });
   } catch (error) {
+    console.log({ error });
     throw new NextResponse(`Iternal Error`, { status: 500 });
   }
 }
