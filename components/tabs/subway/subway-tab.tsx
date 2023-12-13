@@ -1,4 +1,4 @@
-import StatusCard from "./status-card";
+import SubwayStatusCard from "./subway-status-card";
 
 type SubwayTabProps = {
   subwayData: any;
@@ -10,19 +10,19 @@ const SubwayTab = ({ subwayData }: SubwayTabProps) => {
   return (
     <div className="flex justify-between">
       <div className="flex-1">
-        <StatusCard title="Delays" alertFeeds={subwayData?.delayAlerts} />
-        <StatusCard
+        <SubwayStatusCard title="Delays" alertFeeds={subwayData?.delayAlerts} />
+        <SubwayStatusCard
           title="Planned Work"
           alertFeeds={subwayData?.plannedWorkAlerts}
         />
-        <StatusCard
+        <SubwayStatusCard
           title="No Scheduled Service"
           alertFeeds={subwayData?.noScheduledServices}
         />
       </div>
 
       <div className="flex-1">
-        <StatusCard
+        <SubwayStatusCard
           title="No Active Alerts"
           alertFeeds={subwayData?.noActiveAlerts}
         />
