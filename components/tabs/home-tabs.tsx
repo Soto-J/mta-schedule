@@ -1,8 +1,8 @@
 "use client";
 
 import { BusFront, TrainTrack, TramFront } from "lucide-react";
-import SubwayTab from "./subway-tab";
-import BusTab from "./bus-tab";
+import SubwayTab from "./subway/subway-tab";
+import BusTab from "./bus/bus-tab";
 import RailsTab from "./rails-tab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -29,7 +29,7 @@ const HomeTabs = ({ alertData }: HomeTabsProps) => {
       </TabsList>
 
       <div className="rounded bg-muted pb-0.5">
-        <TabsContent value="subway" className="">
+        <TabsContent value="subway">
           <SubwayTab subwayData={alertData} />
         </TabsContent>
 
@@ -37,7 +37,7 @@ const HomeTabs = ({ alertData }: HomeTabsProps) => {
           <BusTab />
         </TabsContent>
 
-        <TabsContent value="rail" className="">
+        <TabsContent value="rail">
           <RailsTab />
         </TabsContent>
       </div>
