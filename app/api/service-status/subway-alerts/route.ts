@@ -112,7 +112,6 @@ export async function GET(req: Request) {
         );
 
       if (isNoService) {
-        console.log(isNoService);
         const trainLine = entity.alert?.informedEntity?.[0].routeId;
 
         if (!trainLine) return obj;
