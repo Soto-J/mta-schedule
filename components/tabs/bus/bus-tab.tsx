@@ -1,17 +1,21 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import BusSelector from "./bus-selector";
+import { Button } from "@/components/ui/button";
 
 const BusTab = () => {
   return (
-    <Card className="min-h-64">
+    <Card>
       <CardHeader>
-        <CardTitle>Find and Track Buses</CardTitle>
+        <CardTitle className="text-center text-lg">
+          Find and Track Buses
+        </CardTitle>
       </CardHeader>
 
-      <div className="flex h-full items-center justify-center">
+      <CardContent className="flex flex-col items-center gap-4">
         <BusSelector />
-      </div>
+        <Button className="max-w-fit">Search</Button>
+      </CardContent>
     </Card>
   );
 };
