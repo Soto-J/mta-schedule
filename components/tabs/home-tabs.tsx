@@ -1,9 +1,11 @@
 "use client";
 
 import { BusFront, TrainTrack, TramFront } from "lucide-react";
+
 import SubwayTab from "./subway/subway-tab";
 import BusTab from "./bus/bus-tab";
-import RailsTab from "./rails-tab";
+import RailsTab from "./rail/rails-tab";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type HomeTabsProps = {
@@ -13,7 +15,7 @@ type HomeTabsProps = {
 const HomeTabs = ({ alertData }: HomeTabsProps) => {
   return (
     <Tabs defaultValue="subway" className="mx-auto max-w-xl shadow-xl">
-      <TabsList className="h-15 grid grid-cols-3">
+     <TabsList className="h-15 grid grid-cols-3">
         <TabsTrigger value="subway" className="flex flex-col gap-1 pb-2">
           <span>Subway</span>
           <TramFront />
