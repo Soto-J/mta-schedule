@@ -24,7 +24,7 @@ const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
       </CardHeader>
 
       <CardContent>
-        <div className="grid grid-cols-[14%_14%_14%_14%] gap-3">
+        <div className="grid grid-cols-[20%_20%_20%_20%] gap-2">
           {alertFeeds &&
             Object.entries(alertFeeds)?.map(([trainLine, value]: any) => {
               const NO_SVG_YET =
