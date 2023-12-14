@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 
 const LONG_ISLAND_RAIL_ROAD = [
   {
@@ -52,9 +53,14 @@ const LongIslandRailRoad = () => {
       </CardHeader>
 
       <CardContent className="space-y-3">
-        {LONG_ISLAND_RAIL_ROAD.map((railRoad) => (
+        {LONG_ISLAND_RAIL_ROAD.map((railRoad, idx) => (
           <Dialog key={railRoad.title}>
-            <DialogTrigger>{railRoad.title}</DialogTrigger>
+            <DialogTrigger className="w-full text-start">
+              {railRoad.title}
+              {idx !== LONG_ISLAND_RAIL_ROAD.length - 1 && (
+                <Separator className="mt-4" />
+              )}
+            </DialogTrigger>
 
             <DialogContent>
               <DialogHeader>
