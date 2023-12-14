@@ -188,7 +188,7 @@ export async function GET(req: Request) {
     }, {} as any);
 
     return NextResponse.json({
-      feed,
+      entities: feed.entity,
       test,
       delayAlerts,
       plannedWorkAlerts,
