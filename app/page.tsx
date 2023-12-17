@@ -10,11 +10,7 @@ export default function Home() {
 
   return (
     <div className="">
-      <HomeTabs alertData={tempState} />
-
-      <div className="mx-auto mt-4 max-w-fit">
-        <ServiceAlertButton getData={(data) => setTempSate(data)} />
-      </div>
+      <HomeTabs />
     </div>
   );
 }
