@@ -8,11 +8,7 @@ import RailsTab from "./rail/rails-tab";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type HomeTabsProps = {
-  alertData: any;
-};
-
-const HomeTabs = ({ alertData }: HomeTabsProps) => {
+const HomeTabs = () => {
   return (
     <Tabs defaultValue="subway" className="mx-auto max-w-xl shadow-xl">
      <TabsList className="h-15 grid grid-cols-3">
@@ -32,7 +28,7 @@ const HomeTabs = ({ alertData }: HomeTabsProps) => {
 
       <div className="rounded bg-muted pb-0.5">
         <TabsContent value="subway">
-          <SubwayTab subwayData={alertData} />
+          <SubwayTab  />
         </TabsContent>
 
         <TabsContent value="bus">
