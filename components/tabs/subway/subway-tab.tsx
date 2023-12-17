@@ -1,11 +1,34 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import SubwayStatusCard from "./subway-status-card";
 
-type SubwayTabProps = {
-  subwayData: any;
-};
+const SubwayTab = () => {
+  const [subwayData, setSubwayData] = useState<any>();
 
-const SubwayTab = ({ subwayData }: SubwayTabProps) => {
-  subwayData && console.log(subwayData);
+  useEffect(() => {
+    getSubwayAlerts();
+
+    setInterval(() => {
+      getSubwayAlerts();
+    }, 5000);
+  }, []);
+
+  const getSubwayAlerts = async () => {
+    try {
+      const response = await axios.get("/api/service-status/subway-alerts");
+
+      if (response.status !== 200) {
+        throw new Error("Something went wrong");
+      }
+
+      setSubwayData(response.data);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
 
   return (
     <div className="flex justify-between">
