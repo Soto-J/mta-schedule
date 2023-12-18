@@ -1,3 +1,4 @@
+import { Railway } from "@/app/actions/get-railway";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
@@ -9,43 +10,13 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 
-const LONG_ISLAND_RAIL_ROAD = [
-  {
-    title: "Babylon Branch",
-  },
-  {
-    title: "City Terminal Zone",
-  },
-  {
-    title: "Far Rockaway Branch",
-  },
-  {
-    title: "Hempstead Branch",
-  },
-  {
-    title: "Long Beach Branch",
-  },
-  {
-    title: "Montauk Branch",
-  },
-  {
-    title: "Oyster Bay Branch",
-  },
-  {
-    title: "Port Jefferson Branch",
-  },
-  {
-    title: "Port Washington Branch",
-  },
-  {
-    title: "Ronkonkoma Branch",
-  },
-  {
-    title: "West Hempstead Branch",
-  },
-];
+type LongIslandRailRoadProps = {
+  railways: Railway[];
+};
 
-const LongIslandRailRoad = () => {
+const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
+  console.log(railways);
+
   return (
     <Card>
       <CardHeader>
@@ -53,19 +24,17 @@ const LongIslandRailRoad = () => {
       </CardHeader>
 
       <CardContent className="space-y-3">
-        {LONG_ISLAND_RAIL_ROAD.map((railRoad, idx) => (
-          <Dialog key={railRoad.title}>
+        {railways.map((railway, idx) => (
+          <Dialog key={railway.route_id}>
             <DialogTrigger className="w-full text-start">
-              {railRoad.title}
-              {idx !== LONG_ISLAND_RAIL_ROAD.length - 1 && (
-                <Separator className="mt-4" />
-              )}
+              {railway.route_long_name}
+              {idx !== railways.length - 1 && <Separator className="mt-4" />}
             </DialogTrigger>
 
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>On or close.</DialogTitle>
-                <DialogDescription>{railRoad.title}</DialogDescription>
+                <DialogDescription>{railway.route_long_name}</DialogDescription>
               </DialogHeader>
             </DialogContent>
           </Dialog>
