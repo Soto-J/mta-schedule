@@ -11,8 +11,8 @@ import { type Railway } from "@/app/actions/get-railway";
 
 type HomeTabsProps = {
   railways: {
-    railwayLongIsland: Railway[];
-    railwayMetroNorth: Railway[];
+    longIsland: Railway[];
+    metroNorth: Railway[];
   };
 };
 

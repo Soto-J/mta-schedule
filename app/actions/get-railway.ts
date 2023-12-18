@@ -14,24 +14,42 @@ export type Railway = {
   route_text_color: string;
 };
 
-export async function getRailway(railway: string) {
+export async function getRailway() {
   try {
-    const filePath = path.join(
+    const metroNorthfilePath = path.join(
       process.cwd(),
-      `public/csv/${railway}/routes.txt`,
+      `public/csv/metro-north/routes.txt`,
     );
 
-    const fileContents = await fs.readFile(filePath, "utf8");
+    const longIslandfilePath = path.join(
+      process.cwd(),
+      `public/csv/long-island/routes.txt`,
+    );
 
-    const parsedData = Papa.parse<Railway>(fileContents, {
-      header: true,
-      dynamicTyping: true,
-    });
+    const metroNothParsed = Papa.parse<Railway>(
+      await fs.readFile(metroNorthfilePath, "utf8"),
+      {
+        header: true,
+        dynamicTyping: true,
+      },
+    );
+
+    const longIslandParsed = Papa.parse<Railway>(
+      await fs.readFile(longIslandfilePath, "utf8"),
+      {
+        header: true,
+        dynamicTyping: true,
+      },
+    );
 
     // Remove last element of array, which is empty
-    parsedData.data.pop();
+    longIslandParsed.data.pop();
+    metroNothParsed.data.pop();
 
-    return parsedData.data;
+    return {
+      longIsland: longIslandParsed.data,
+      metroNorth: metroNothParsed.data,
+    };
   } catch (error) {
     return Promise.reject(error);
   }

@@ -5,16 +5,16 @@ import MetroNorthRailRoad from "./metro-north-rail-road";
 
 type RailsTabProps = {
   railways: {
-    railwayLongIsland: Railway[];
-    railwayMetroNorth: Railway[];
+    longIsland: Railway[];
+    metroNorth: Railway[];
   };
 };
 
 const RailsTab = ({ railways }: RailsTabProps) => {
   return (
     <div className="grid grid-cols-2">
-      <LongIslandRailRoad railways={railways.railwayLongIsland} />
-      <MetroNorthRailRoad railways={railways.railwayMetroNorth} />
+      <LongIslandRailRoad railways={railways.longIsland} />
+      <MetroNorthRailRoad railways={railways.metroNorth} />
     </div>
   );
 };
