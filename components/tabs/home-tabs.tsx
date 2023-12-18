@@ -4,14 +4,22 @@ import { BusFront, TrainTrack, TramFront } from "lucide-react";
 
 import SubwayTab from "./subway/subway-tab";
 import BusTab from "./bus/bus-tab";
-import RailsTab from "./rail/rails-tab";
+import RailwayTab from "./rail/railway-tab";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { type Railway } from "@/app/actions/get-railway";
 
-const HomeTabs = () => {
+type HomeTabsProps = {
+  railways: {
+    railwayLongIsland: Railway[];
+    railwayMetroNorth: Railway[];
+  };
+};
+
+const HomeTabs = ({ railways }: HomeTabsProps) => {
   return (
     <Tabs defaultValue="subway" className="mx-auto max-w-xl shadow-xl">
-     <TabsList className="h-15 grid grid-cols-3">
+      <TabsList className="h-15 grid grid-cols-3">
         <TabsTrigger value="subway" className="flex flex-col gap-1 pb-2">
           <span>Subway</span>
           <TramFront />
@@ -28,7 +36,7 @@ const HomeTabs = () => {
 
       <div className="rounded bg-muted pb-0.5">
         <TabsContent value="subway">
-          <SubwayTab  />
+          <SubwayTab />
         </TabsContent>
 
         <TabsContent value="bus">
@@ -36,7 +44,7 @@ const HomeTabs = () => {
         </TabsContent>
 
         <TabsContent value="rail">
-          <RailsTab />
+          <RailwayTab railways={railways} />
         </TabsContent>
       </div>
     </Tabs>
