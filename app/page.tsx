@@ -1,16 +1,18 @@
-"use client";
-
-import { useState } from "react";
-
 import HomeTabs from "@/components/tabs/home-tabs";
-import ServiceAlertButton from "@/components/service-alert-button";
+import { getRailway } from "./actions/get-railway";
 
-export default function Home() {
-  const [tempState, setTempSate] = useState();
+export default async function Home() {
+  const railwayLongIsland = await getRailway("long-island");
+  const railwayMetroNorth = await getRailway("metro-north");
 
   return (
     <div className="">
-      <HomeTabs />
+      <HomeTabs
+        railways={{
+          railwayLongIsland,
+          railwayMetroNorth,
+        }}
+      />
     </div>
   );
 }
