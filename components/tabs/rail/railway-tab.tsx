@@ -1,20 +1,35 @@
-import { type Railway } from "@/app/actions/get-railway";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 import LongIslandRailRoad from "./long-island-rail-road";
 import MetroNorthRailRoad from "./metro-north-rail-road";
 
-type RailsTabProps = {
-  railways: {
-    longIsland: Railway[];
-    metroNorth: Railway[];
-  };
-};
+const RailsTab = () => {
+  const [railData, setRailData] = useState<any>();
 
-const RailsTab = ({ railways }: RailsTabProps) => {
+  useEffect(() => {
+    getRailAlerts();
+  }, []);
+
+  const getRailAlerts = async () => {
+    try {
+      const response = await axios.get("/api/service-status/rail-alerts");
+
+      if (response.status !== 200) {
+        throw new Error("Something went wrong");
+      }
+
+      console.log({ yurr: response.data });
+      setRailData(response.data);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
   return (
     <div className="grid grid-cols-2">
-      <LongIslandRailRoad railways={railways.longIsland} />
-      <MetroNorthRailRoad railways={railways.metroNorth} />
+      <LongIslandRailRoad railways={railData?.railways.longIsland} />
+      <MetroNorthRailRoad railways={railData?.railways.metroNorth} />
     </div>
   );
 };
