@@ -7,16 +7,8 @@ import BusTab from "./bus/bus-tab";
 import RailwayTab from "./rail/railway-tab";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { type Railway } from "@/app/actions/get-railways";
 
-type HomeTabsProps = {
-  railways: {
-    longIsland: Railway[];
-    metroNorth: Railway[];
-  };
-};
-
-const HomeTabs = ({ railways }: HomeTabsProps) => {
+const HomeTabs = () => {
   return (
     <Tabs defaultValue="subway" className="mx-auto max-w-xl shadow-xl">
       <TabsList className="h-15 grid grid-cols-3">
@@ -44,7 +36,7 @@ const HomeTabs = ({ railways }: HomeTabsProps) => {
         </TabsContent>
 
         <TabsContent value="rail">
-          <RailwayTab railways={railways} />
+          <RailwayTab  />
         </TabsContent>
       </div>
     </Tabs>
