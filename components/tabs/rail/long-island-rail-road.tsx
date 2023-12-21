@@ -1,4 +1,4 @@
-import { Railway } from "@/app/actions/get-railway";
+import { Railway } from "@/app/actions/get-railways";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
@@ -24,7 +24,7 @@ const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
       </CardHeader>
 
       <CardContent className="space-y-3">
-        {railways.map((railway, idx) => (
+        {railways?.map((railway, idx) => (
           <Dialog key={railway.route_id}>
             <DialogTrigger className="w-full text-start">
               {railway.route_long_name}
@@ -36,6 +36,32 @@ const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
                 <DialogTitle>On or close.</DialogTitle>
                 <DialogDescription>{railway.route_long_name}</DialogDescription>
               </DialogHeader>
+
+              <div className="flex flex-col space-y-2">
+                {railway.feeds.alerts.map((alert, i) => (
+                  <div key={i}>
+                    <DialogTitle>
+                      {alert.headerText.translation[0].text}
+                    </DialogTitle>
+                    <DialogDescription className="mt-2">
+                      {alert.descriptionText?.translation[0].text}
+                    </DialogDescription>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                {railway.feeds.plannedWork.map((plannedWork, i) => (
+                  <div key={i}>
+                    <DialogTitle>
+                      {plannedWork.headerText.translation[0].text}
+                    </DialogTitle>
+                    <DialogDescription className="mt-2">
+                      {plannedWork.descriptionText?.translation[0].text}
+                    </DialogDescription>
+                  </div>
+                ))}
+              </div>
             </DialogContent>
           </Dialog>
         ))}
