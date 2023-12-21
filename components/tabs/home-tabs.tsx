@@ -7,7 +7,7 @@ import BusTab from "./bus/bus-tab";
 import RailwayTab from "./rail/railway-tab";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { type Railway } from "@/app/actions/get-railway";
+import { type Railway } from "@/app/actions/get-railways";
 
 type HomeTabsProps = {
   railways: {
