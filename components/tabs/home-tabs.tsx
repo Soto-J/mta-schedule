@@ -2,13 +2,19 @@
 
 import { BusFront, TrainTrack, TramFront } from "lucide-react";
 
+import { AlertResponse } from "@/actions/subway-alerts";
+
 import SubwayTab from "./subway/subway-tab";
 import BusTab from "./bus/bus-tab";
 import RailwayTab from "./rail/railway-tab";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const HomeTabs = () => {
+type HomeTabsProps = {
+  subwayAlerts?: AlertResponse;
+};
+
+const HomeTabs = ({ subwayAlerts }: HomeTabsProps) => {
   return (
     <Tabs defaultValue="subway" className="mx-auto max-w-xl shadow-xl">
       <TabsList className="h-15 grid grid-cols-3">
@@ -16,10 +22,12 @@ const HomeTabs = () => {
           <span>Subway</span>
           <TramFront />
         </TabsTrigger>
+
         <TabsTrigger value="bus" className="flex flex-col gap-1 pb-2">
           <span>Bus</span>
           <BusFront />
         </TabsTrigger>
+
         <TabsTrigger value="rail" className="flex flex-col gap-1 pb-2">
           <span>Rail</span>
           <TrainTrack />
@@ -36,7 +44,7 @@ const HomeTabs = () => {
         </TabsContent>
 
         <TabsContent value="rail">
-          <RailwayTab  />
+          <RailwayTab />
         </TabsContent>
       </div>
     </Tabs>
@@ -44,3 +52,19 @@ const HomeTabs = () => {
 };
 
 export default HomeTabs;
+
+// function extractPlannedWorkAlerts(feed: any[]): {
+//   [key: string]: GtfsRealtimeBindings.transit_realtime.IAlert[];
+// } {
+//   return feed.reduce((obj, entity) => {
+//     try {
+//       if (entity.alert?.informedEntity) {
+//         processInformedEntities(entity.alert.informedEntity, obj);
+//       }
+//     } catch (error) {
+//       console.error('Error processing entity:', entity, error);
+//     }
+
+//     return obj;
+//   }, {});
+// }

@@ -1,6 +1,10 @@
-import Papa from "papaparse";
+"use server";
 import path from "path";
 import fs from "fs/promises";
+
+import Papa from "papaparse";
+
+import type GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
 export type Railway = {
   route_id: string;
@@ -13,8 +17,8 @@ export type Railway = {
   route_color: string;
   route_text_color: string;
   feeds: {
-    alerts: any[];
-    plannedWork: any[];
+    alerts: GtfsRealtimeBindings.transit_realtime.IAlert[];
+    plannedWork: GtfsRealtimeBindings.transit_realtime.IAlert[];
   };
 };
 
@@ -52,18 +56,18 @@ export async function getRailways() {
 
     const longIsland = longIslandParsed.data.map((railway) => ({
       ...railway,
-      feeds: {
-        alerts: [],
-        plannedWork: [],
-      },
+      // feeds: {
+      //   alerts: [],
+      //   plannedWork: [],
+      // },
     }));
 
     const metroNorth = metroNothParsed.data.map((railway) => ({
       ...railway,
-      feeds: {
-        alerts: [],
-        plannedWork: [],
-      },
+      // feeds: {
+      //   alerts: [],
+      //   plannedWork: [],
+      // },
     }));
 
     return {

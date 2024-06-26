@@ -2,91 +2,91 @@
 
 export const subwayLines = [
   {
-    value: "1",
+    id: "1",
     label: "/images/train-svgs/1-digit.svg",
   },
   {
-    value: "2",
+    id: "2",
     label: "/images/train-svgs/2-digit.svg",
   },
   {
-    value: "3",
+    id: "3",
     label: "/images/train-svgs/3-digit.svg",
   },
   {
-    value: "4",
+    id: "4",
     label: "/images/train-svgs/4-digit.svg",
   },
   {
-    value: "5",
+    id: "5",
     label: "/images/train-svgs/5-digit.svg",
   },
   {
-    value: "6",
+    id: "6",
     label: "/images/train-svgs/6-digit.svg",
   },
   {
-    value: "7",
+    id: "7",
     label: "/images/train-svgs/7-digit.svg",
   },
   {
-    value: "A",
+    id: "A",
     label: "/images/train-svgs/a-letter.svg",
   },
   {
-    value: "B",
+    id: "B",
     label: "/images/train-svgs/b-letter.svg",
   },
   {
-    value: "C",
+    id: "C",
     label: "/images/train-svgs/c-letter.svg",
   },
   {
-    value: "D",
+    id: "D",
     label: "/images/train-svgs/d-letter.svg",
   },
   {
-    value: "E",
+    id: "E",
     label: "/images/train-svgs/e-letter.svg",
   },
   {
-    value: "F",
+    id: "F",
     label: "/images/train-svgs/f-letter.svg",
   },
   {
-    value: "G",
+    id: "G",
     label: "/images/train-svgs/g-letter.svg",
   },
   {
-    value: "H",
+    id: "H",
     label: "/images/train-svgs/h-letter.svg",
   },
   {
-    value: "L",
+    id: "L",
     label: "/images/train-svgs/l-letter.svg",
   },
   {
-    value: "J",
+    id: "J",
     label: "/images/train-svgs/j-letter.svg",
   },
   {
-    value: "M",
+    id: "M",
     label: "/images/train-svgs/m-letter.svg",
   },
   {
-    value: "N",
+    id: "N",
     label: "/images/train-svgs/n-letter.svg",
   },
   {
-    value: "Q",
+    id: "Q",
     label: "/images/train-svgs/q-letter.svg",
   },
   {
-    value: "R",
+    id: "R",
     label: "/images/train-svgs/r-letter.svg",
   },
   {
-    value: "S",
+    id: "S",
     label: "/images/train-svgs/s-letter.svg",
   },
 ];

@@ -32,7 +32,7 @@ const Navbar = () => {
           <Image src="/images/logo.svg" alt="Logo" width={50} height={50} />
         </Link>
 
-        <div className="hidden gap-x-8 text-lg md:flex">{navigationLinks}</div>
+        {/* <div className="hidden gap-x-8 text-lg md:flex">{navigationLinks}</div> */}
 
         <div className="flex gap-x-8">
           <Sheet>

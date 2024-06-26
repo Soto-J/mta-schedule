@@ -1,30 +1,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import SubwayStatusCard from "./subway-status-card";
+import { AlertResponse, getSubwayAlerts } from "@/actions/subway-alerts";
 
 const SubwayTab = () => {
-  const [subwayData, setSubwayData] = useState<any>();
+  const [subwayData, setSubwayData] = useState<AlertResponse>();
 
   useEffect(() => {
-    getSubwayAlerts();
+    fetchData();
 
-    setInterval(() => {
-      getSubwayAlerts();
-    }, 5000);
+    const intervalId = setInterval(() => fetchData(), 5000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
-  const getSubwayAlerts = async () => {
+  const fetchData = async () => {
     try {
-      const response = await axios.get("/api/service-status/subway-alerts");
+      const subwayAlerts = await getSubwayAlerts();
 
-      if (response.status !== 200) {
+      if (!subwayAlerts) {
         throw new Error("Something went wrong");
       }
 
-      setSubwayData(response.data);
+      console.log({ subwayAlerts });
+
+      setSubwayData(subwayAlerts);
     } catch (error) {
       console.log({ error });
     }
@@ -33,11 +35,16 @@ const SubwayTab = () => {
   return (
     <div className="flex justify-between">
       <div className="flex-1">
+        {/* Delays */}
         <SubwayStatusCard title="Delays" alertFeeds={subwayData?.delayAlerts} />
+
+        {/* Planned Work */}
         <SubwayStatusCard
           title="Planned Work"
           alertFeeds={subwayData?.plannedWorkAlerts}
         />
+
+        {/* No Scheduled Service */}
         <SubwayStatusCard
           title="No Scheduled Service"
           alertFeeds={subwayData?.noScheduledServices}

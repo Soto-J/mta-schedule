@@ -1,17 +1,12 @@
-import { NextResponse } from "next/server";
 import axios from "axios";
-
-import { getRailways } from "@/app/actions/get-railways";
-
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
-
-export async function GET(req: Request) {
+export const getRailways = async () => {
   try {
     const longIslandFeed = await fetchData("long-island");
     const metroNorthFeed = await fetchData("metro-north");
 
     if (!longIslandFeed || !metroNorthFeed) {
-      return NextResponse.error();
+      throw new Error("");
     }
 
     const railways = (await getRailways()) as any;
@@ -130,7 +125,7 @@ export async function GET(req: Request) {
       rail.feeds.alerts.push(...(value as any[]));
     });
 
-    return NextResponse.json({
+    return {
       railways,
       // longIslandFeed: longIslandFeed,
       // metroNorthFeed: metroNorthFeed,
@@ -138,12 +133,12 @@ export async function GET(req: Request) {
       //   longIslandAlerts,
       //   longIslandPlannedWork,
       // },
-    });
+    };
   } catch (error) {
     console.log({ error });
-    return new NextResponse("Internal Error", { status: 500 });
+    throw new Error("[Internal Error]: 500");
   }
-}
+};
 
 const fetchData = async (railType: "long-island" | "metro-north") => {
   try {

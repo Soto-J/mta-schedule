@@ -1,4 +1,4 @@
-import { Railway } from "@/app/actions/get-railway";
+import { Railway } from "@/actions/get-railways";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
