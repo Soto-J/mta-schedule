@@ -40,12 +40,12 @@ const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
               <div className="flex flex-col space-y-2">
                 {railway.feeds.alerts.map((alert, i) => (
                   <div key={i}>
-                    <DialogTitle>
+                    {/* <DialogTitle>
                       {alert.headerText.translation[0].text}
                     </DialogTitle>
                     <DialogDescription className="mt-2">
                       {alert.descriptionText?.translation[0].text}
-                    </DialogDescription>
+                    </DialogDescription> */}
                   </div>
                 ))}
               </div>
@@ -53,12 +53,12 @@ const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
               <div className="flex flex-col space-y-2">
                 {railway.feeds.plannedWork.map((plannedWork, i) => (
                   <div key={i}>
-                    <DialogTitle>
+                    {/* <DialogTitle>
                       {plannedWork.headerText.translation[0].text}
                     </DialogTitle>
                     <DialogDescription className="mt-2">
                       {plannedWork.descriptionText?.translation[0].text}
-                    </DialogDescription>
+                    </DialogDescription> */}
                   </div>
                 ))}
               </div>
