@@ -30,7 +30,7 @@ export const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
       <CardContent>
         <div className="grid grid-cols-[20%_20%_20%_20%] gap-2">
           {alertFeeds &&
-            Object.entries(alertFeeds)?.map(([trainLine, value]) => {
+            Object.entries(alertFeeds)?.map(([trainLine, alerts]) => {
               if (excludeSubwayLines.includes(trainLine)) {
                 return;
               }
@@ -54,23 +54,24 @@ export const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
                       />
                     </DialogTrigger>
 
-                    <DialogContent className="w-[95%]">
-                      <ScrollArea className="max-h-96 p-1.5">
-                        {value.map((alert: any, i: number) => {
+                    <DialogContent className="max-w-xl md:max-w-2xl">
+                      <ScrollArea className="max-h-96 p-2">
+                        {alerts.map((alert, i) => {
                           const description =
                             alert.descriptionText?.translation?.[0].text;
 
-                          const header = alert.headerText.translation?.[0].text;
+                          const header =
+                            alert.headerText?.translation?.[0].text;
 
                           return (
                             <div key={i}>
                               <DialogHeader>
-                                <DialogTitle className="text-start">
+                                <DialogTitle className="text-start leading-6">
                                   {header}
                                 </DialogTitle>
                               </DialogHeader>
 
-                              <DialogDescription className="my-4">
+                              <DialogDescription className="my-4 leading-6">
                                 {description}
                               </DialogDescription>
                             </div>
