@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-import SubwayStatusCard from "./subway-status-card";
 import { AlertResponse, getSubwayAlerts } from "@/actions/subway-alerts";
 
-const SubwayTab = () => {
+import { SubwayStatusCard } from "./subway-status-card";
+
+export const SubwayTab = () => {
   const [subwayData, setSubwayData] = useState<AlertResponse>();
 
   useEffect(() => {
@@ -60,5 +61,3 @@ const SubwayTab = () => {
     </div>
   );
 };
-
-export default SubwayTab;

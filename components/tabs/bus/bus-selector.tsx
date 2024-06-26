@@ -18,7 +18,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 
-const BusSelector = () => {
+export const BusSelector = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const BUS_LIST = [
@@ -39,6 +39,7 @@ const BusSelector = () => {
       label: "1",
     },
   ];
+
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
@@ -86,5 +87,3 @@ const BusSelector = () => {
     </>
   );
 };
-
-export default BusSelector;

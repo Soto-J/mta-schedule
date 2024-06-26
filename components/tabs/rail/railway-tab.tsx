@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import LongIslandRailRoad from "./long-island-rail-road";
+import { LongIslandRailRoad } from "./long-island-rail-road";
 import MetroNorthRailRoad from "./metro-north-rail-road";
 
-const RailsTab = () => {
+export const RailwayTab = () => {
   const [railData, setRailData] = useState<any>();
 
   useEffect(() => {
@@ -33,5 +33,3 @@ const RailsTab = () => {
     </div>
   );
 };
-
-export default RailsTab;

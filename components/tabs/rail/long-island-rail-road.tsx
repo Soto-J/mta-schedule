@@ -14,7 +14,7 @@ type LongIslandRailRoadProps = {
   railways: Railway[];
 };
 
-const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
+export const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
   console.log(railways);
 
   return (
@@ -70,4 +70,3 @@ const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
   );
 };
 
-export default LongIslandRailRoad;

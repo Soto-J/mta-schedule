@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import BusSelector from "./bus-selector";
+import { BusSelector } from "./bus-selector";
 import { Button } from "@/components/ui/button";
 
-const BusTab = () => {
+export const BusTab = () => {
   return (
     <Card>
       <CardHeader>
@@ -19,5 +19,3 @@ const BusTab = () => {
     </Card>
   );
 };
-
-export default BusTab;

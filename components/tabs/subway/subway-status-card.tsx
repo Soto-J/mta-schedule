@@ -1,5 +1,8 @@
 import Image from "next/image";
 
+import { FilteredAlert } from "@/lib/subway-helpers";
+
+import { ScrollArea } from "../../ui/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import {
   Dialog,
@@ -9,14 +12,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog";
-import { ScrollArea } from "../../ui/scroll-area";
 
 type StatusCardProps = {
   title?: string;
-  alertFeeds?: any;
+  alertFeeds?: FilteredAlert;
 };
 
-const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
+export const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
+  const excludeSubwayLines = ["GS", "6X", "SI", "7X", "FS"];
+
   return (
     <Card className={title === `No Active Alerts` ? "h-full" : ""}>
       <CardHeader>
@@ -26,21 +30,16 @@ const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
       <CardContent>
         <div className="grid grid-cols-[20%_20%_20%_20%] gap-2">
           {alertFeeds &&
-            Object.entries(alertFeeds)?.map(([trainLine, value]: any) => {
-              const NO_SVG_YET =
-                trainLine === "GS" ||
-                trainLine === "6X" ||
-                trainLine === "SI" ||
-                trainLine === "7X" ||
-                trainLine === "FS";
-
-              if (NO_SVG_YET) {
+            Object.entries(alertFeeds)?.map(([trainLine, value]) => {
+              if (excludeSubwayLines.includes(trainLine)) {
                 return;
               }
 
-              const src = isNaN(trainLine)
-                ? `/images/train-svgs/${trainLine.toLowerCase()}-letter.svg`
-                : `/images/train-svgs/${trainLine}-digit.svg`;
+              const isDigit = !isNaN(Number(trainLine));
+
+              const src = isDigit
+                ? `/images/train-svgs/${trainLine}-digit.svg`
+                : `/images/train-svgs/${trainLine.toLowerCase()}-letter.svg`;
 
               return (
                 <div key={trainLine} className="col-span-1">
@@ -70,6 +69,7 @@ const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
                                   {header}
                                 </DialogTitle>
                               </DialogHeader>
+
                               <DialogDescription className="my-4">
                                 {description}
                               </DialogDescription>
@@ -87,5 +87,3 @@ const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
     </Card>
   );
 };
-
-export default SubwayStatusCard;
