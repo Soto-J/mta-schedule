@@ -41,7 +41,7 @@ export function DropdownSelect({ selectedValue }: DropdownSelectProps) {
         >
           {value ? (
             <Image
-              src={`${subwayLines.find((line) => line.value === value)?.label}`}
+              src={`${subwayLines.find((line) => line.id === value)?.label}`}
               alt={value}
               width={20}
               height={20}
@@ -60,8 +60,8 @@ export function DropdownSelect({ selectedValue }: DropdownSelectProps) {
             <ScrollArea className="h-64">
               {subwayLines.map((line) => (
                 <CommandItem
-                  key={line.value}
-                  value={line.value}
+                  key={line.id}
+                  value={line.id}
                   onSelect={(currentValue) => {
                     setValue((prevValue) =>
                       prevValue === currentValue.toUpperCase()
@@ -75,12 +75,12 @@ export function DropdownSelect({ selectedValue }: DropdownSelectProps) {
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === line.value ? "opacity-100" : "opacity-0",
+                      value === line.id ? "opacity-100" : "opacity-0",
                     )}
                   />
                   <Image
                     src={`${line.label}`}
-                    alt={line.value}
+                    alt={line.id}
                     width={20}
                     height={20}
                   />
