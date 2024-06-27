@@ -36,16 +36,13 @@ export const SubwayTab = () => {
   return (
     <div className="flex justify-between">
       <div className="flex-1">
-        {/* Delays */}
         <SubwayStatusCard title="Delays" alertFeeds={subwayData?.delayAlerts} />
 
-        {/* Planned Work */}
         <SubwayStatusCard
           title="Planned Work"
           alertFeeds={subwayData?.plannedWorkAlerts}
         />
 
-        {/* No Scheduled Service */}
         <SubwayStatusCard
           title="No Scheduled Service"
           alertFeeds={subwayData?.noScheduledServices}

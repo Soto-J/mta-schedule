@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import { LongIslandRailRoad } from "./long-island-rail-road";
-import MetroNorthRailRoad from "./metro-north-rail-road";
+import { MetroNorthRailRoad } from "./metro-north-rail-road";
+import { Railway, getRailways } from "@/lib/railway-helpers";
 
 export const RailwayTab = () => {
-  const [railData, setRailData] = useState<any>();
+  const [railData, setRailData] = useState<{
+    metroNorth: Railway[];
+    longIsland: Railway[];
+  }>();
 
   useEffect(() => {
     getRailAlerts();
@@ -13,14 +16,14 @@ export const RailwayTab = () => {
 
   const getRailAlerts = async () => {
     try {
-      const response = await axios.get("/api/service-status/rail-alerts");
+      const response = await getRailways();
 
-      if (response.status !== 200) {
+      if (!response) {
         throw new Error("Something went wrong");
       }
 
-      console.log({ yurr: response.data });
-      setRailData(response.data);
+      console.log({ response });
+      setRailData(response);
     } catch (error) {
       console.log({ error });
     }
@@ -28,8 +31,8 @@ export const RailwayTab = () => {
 
   return (
     <div className="grid grid-cols-2">
-      <LongIslandRailRoad railways={railData?.railways.longIsland} />
-      <MetroNorthRailRoad railways={railData?.railways.metroNorth} />
+      <LongIslandRailRoad railways={railData?.longIsland} />
+      <MetroNorthRailRoad railways={railData?.metroNorth} />
     </div>
   );
 };

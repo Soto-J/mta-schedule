@@ -1,5 +1,6 @@
-import { Railway } from "@/actions/get-railways";
+import { Railway } from "@/lib/railway-helpers";
 
+import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
@@ -9,13 +10,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 
 type MetroNorthRailRoadProps = {
-  railways: Railway[];
+  railways?: Railway[];
 };
 
-const MetroNorthRailRoad = ({ railways }: MetroNorthRailRoadProps) => {
+export const MetroNorthRailRoad = ({ railways }: MetroNorthRailRoadProps) => {
   return (
     <Card>
       <CardHeader>
@@ -42,5 +42,3 @@ const MetroNorthRailRoad = ({ railways }: MetroNorthRailRoadProps) => {
     </Card>
   );
 };
-
-export default MetroNorthRailRoad;

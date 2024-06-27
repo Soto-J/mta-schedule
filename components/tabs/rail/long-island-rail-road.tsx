@@ -1,5 +1,8 @@
-import { Railway } from "@/actions/get-railways";
+import { Railway } from "@/lib/railway-helpers";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
   DialogContent,
@@ -8,10 +11,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 
 type LongIslandRailRoadProps = {
-  railways: Railway[];
+  railways?: Railway[];
 };
 
 export const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
@@ -38,7 +40,7 @@ export const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
               </DialogHeader>
 
               <div className="flex flex-col space-y-2">
-                {railway.feeds.alerts.map((alert, i) => (
+                {railway?.feeds?.alerts.map((alert, i) => (
                   <div key={i}>
                     {/* <DialogTitle>
                       {alert.headerText.translation[0].text}
@@ -51,7 +53,7 @@ export const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
               </div>
 
               <div className="flex flex-col space-y-2">
-                {railway.feeds.plannedWork.map((plannedWork, i) => (
+                {railway?.feeds?.plannedWork?.map((plannedWork, i) => (
                   <div key={i}>
                     {/* <DialogTitle>
                       {plannedWork.headerText.translation[0].text}
@@ -69,4 +71,3 @@ export const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
     </Card>
   );
 };
-

@@ -7,6 +7,9 @@ import { subwayLines } from "@/app/(main)/service-status/_components/subway-line
 export type SubwayAlert = GtfsRealtimeBindings.transit_realtime.IAlert;
 export type SubwayEntity = GtfsRealtimeBindings.transit_realtime.IFeedEntity;
 
+export type GtfsAlert = GtfsRealtimeBindings.transit_realtime.IAlert;
+export type GtfsEntity = GtfsRealtimeBindings.transit_realtime.IFeedEntity;
+
 export const fetchSubwayData = async () => {
   try {
     // REALTIME FEED
@@ -40,8 +43,8 @@ export const fetchSubwayData = async () => {
   }
 };
 
-export const delayedAlertsFilter = (entities: SubwayEntity[]) => {
-  return entities.reduce((obj: { [key: string]: SubwayAlert[] }, entity) => {
+export const delayedAlertsFilter = (entities: GtfsEntity[]) => {
+  return entities.reduce((obj: { [key: string]: GtfsAlert[] }, entity) => {
     if (entity.id.includes("alert")) {
       const trainLine = entity.alert?.informedEntity?.[0].routeId;
 
@@ -60,8 +63,8 @@ export const delayedAlertsFilter = (entities: SubwayEntity[]) => {
   }, {});
 };
 
-export const plannedWorkAlertsFilter = (entities: SubwayEntity[]) => {
-  return entities.reduce((obj: { [key: string]: SubwayAlert[] }, entity) => {
+export const plannedWorkAlertsFilter = (entities: GtfsEntity[]) => {
+  return entities.reduce((obj: { [key: string]: GtfsAlert[] }, entity) => {
     // Six hour window
     const currentDate = new Date();
     const sixHoursLater = new Date(currentDate.getTime() + 6 * 60 * 60 * 1000);
@@ -97,8 +100,8 @@ export const plannedWorkAlertsFilter = (entities: SubwayEntity[]) => {
   }, {});
 };
 
-export const noScheduledServicesFilter = (entities: SubwayEntity[]) => {
-  return entities.reduce((obj: { [key: string]: SubwayAlert[] }, entity) => {
+export const noScheduledServicesFilter = (entities: GtfsEntity[]) => {
+  return entities.reduce((obj: { [key: string]: GtfsAlert[] }, entity) => {
     const isNoService =
       entity.alert?.headerText?.translation?.[0].text.includes("No") &&
       entity.alert?.headerText?.translation?.[0].text.includes(
@@ -123,7 +126,7 @@ export const noScheduledServicesFilter = (entities: SubwayEntity[]) => {
   }, {});
 };
 
-export type FilteredAlert = { [key: string]: SubwayAlert[] };
+export type FilteredAlert = { [key: string]: GtfsAlert[] };
 
 export const noActiveAlertsFilter = (
   delayAlerts: FilteredAlert,
@@ -161,8 +164,8 @@ export const noActiveAlertsFilter = (
   }, {});
 };
 
-export const plannedWorkFilterTest = (entities: SubwayEntity[]) => {
-  return entities.reduce((obj: { [key: string]: SubwayAlert[] }, entity) => {
+export const plannedWorkFilterTest = (entities: GtfsEntity[]) => {
+  return entities.reduce((obj: { [key: string]: GtfsAlert[] }, entity) => {
     const currentDate = new Date();
     const sixHoursLater = new Date(currentDate.getTime() + 6 * 60 * 60 * 1000);
     // planned work window

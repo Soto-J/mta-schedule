@@ -23,6 +23,7 @@ export const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
           {alertFeeds &&
             Object.entries(alertFeeds)?.map(([subwayLine, alerts]) => {
               if (excludeSubwayLines.includes(subwayLine)) return null;
+
               return <SubwayLine line={subwayLine} alerts={alerts} />;
             })}
         </div>
