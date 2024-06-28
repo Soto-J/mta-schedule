@@ -4,9 +4,6 @@ import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
 import { subwayLines } from "@/app/(main)/service-status/_components/subway-lines";
 
-export type SubwayAlert = GtfsRealtimeBindings.transit_realtime.IAlert;
-export type SubwayEntity = GtfsRealtimeBindings.transit_realtime.IFeedEntity;
-
 export type GtfsAlert = GtfsRealtimeBindings.transit_realtime.IAlert;
 export type GtfsEntity = GtfsRealtimeBindings.transit_realtime.IFeedEntity;
 

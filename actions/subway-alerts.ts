@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { FilteredAlert, SubwayAlert, SubwayEntity } from "@/lib/subway-helpers";
+import { FilteredAlert, GtfsAlert, GtfsEntity } from "@/lib/subway-helpers";
 
 import { subwayAlerts } from "@/lib/subway-service";
 
@@ -11,8 +11,8 @@ export type AlertResponse = {
   plannedWorkAlerts: FilteredAlert;
   noActiveAlerts: FilteredAlert;
   noScheduledServices: FilteredAlert;
-  test: SubwayAlert;
-  entities: SubwayEntity;
+  test: GtfsAlert;
+  entities: GtfsEntity;
 };
 
 export const getSubwayAlerts = async (): Promise<AlertResponse> => {

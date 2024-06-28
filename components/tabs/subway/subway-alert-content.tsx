@@ -1,4 +1,4 @@
-import { SubwayAlert } from "@/lib/subway-helpers";
+import { GtfsAlert } from "@/lib/subway-helpers";
 
 import {
   DialogDescription,
@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 
 type SubwayAlertContentProps = {
-  alerts: SubwayAlert[];
+  alerts: GtfsAlert[];
 };
 
 export const SubwayAlertContent = ({ alerts }: SubwayAlertContentProps) => {

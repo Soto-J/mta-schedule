@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   delayedAlertsFilter,
   fetchSubwayData,
@@ -16,13 +15,11 @@ export const subwayAlerts = async () => {
       throw new Error(`[Eternal 404]: ${feed}`);
     }
 
-    // Delay Alerts
+    // Filters
     const delayAlerts = delayedAlertsFilter(feed.entity);
-    // Planned Work Alerts - Window between now and 6 hours later
+    // Window between now and 6 hours later
     const plannedWorkAlerts = plannedWorkAlertsFilter(feed.entity);
-    // No Scheduled Services
     const noScheduledServices = noScheduledServicesFilter(feed.entity);
-    // No Active Alerts
     const noActiveAlerts = noActiveAlertsFilter(
       delayAlerts,
       plannedWorkAlerts,

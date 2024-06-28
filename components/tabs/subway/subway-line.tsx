@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { SubwayAlert } from "@/lib/subway-helpers";
+import { GtfsAlert } from "@/lib/subway-helpers";
 
 import { SubwayAlertContent } from "./subway-alert-content";
 
@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 type SubwayLineProps = {
   line: string;
-  alerts: SubwayAlert[];
+  alerts: GtfsAlert[];
 };
 
 export const SubwayLine = ({ line, alerts }: SubwayLineProps) => {
