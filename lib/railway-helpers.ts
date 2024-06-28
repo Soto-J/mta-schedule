@@ -65,7 +65,7 @@ export type Railway = {
   };
 };
 
-export const getRailways = async () => {
+export const railwayCSVData = async () => {
   try {
     const metroNorth = await readRailwayFile(
       `public/csv/long-island/routes.txt`,
@@ -98,17 +98,70 @@ const readRailwayFile = async (file: string) => {
 };
 
 // Filters
-export const plannedWorkFilter = (feed: GtfsEntity[]) => {
-  return feed.reduce((obj: { [key: string]: GtfsAlert[] }, entity) => {
-    entity.alert?.informedEntity?.forEach((ie) => {
-      const { routeId } = ie;
+export const plannedWorkFilter = (
+  feed: GtfsEntity[],
+  railwaysData: {
+    metroNorth: Railway[];
+    longIsland: Railway[];
+  },
+) => {
+  // Create hash and filter by planned work
+  const filteredPlannedWork = feed.reduce(
+    (obj: { [key: string]: GtfsAlert[] }, entity) => {
+      entity.alert?.informedEntity?.forEach((ie) => {
+        const { routeId } = ie;
 
-      if (entity.id.includes("planned_work") && routeId) {
+        if (entity.id.includes("planned_work") && routeId) {
+          if (!obj[routeId]) {
+            obj[routeId] = [];
+          }
+
+          if (!entity.alert) return;
+
+          obj[routeId].push(entity.alert);
+        }
+      });
+
+      return obj;
+    },
+    {},
+  );
+
+  // Push planned_work into railwaycsv
+  Object.entries(filteredPlannedWork).forEach(([routeId, plannedWorks]) => {
+    const rail = railwaysData.longIsland.find(
+      (railway: any) => String(railway.route_id) === routeId,
+    );
+
+    if (!rail) return;
+
+    rail.feeds.plannedWork.push(...plannedWorks);
+  });
+
+  // Object.entries(filteredEntities).forEach(([routeId, alerts]) => {
+  //   const rail = railwaysCSV.longIsland.find(
+  //     (railway) => String(railway.route_id) === routeId,
+  //   );
+
+  //   if (!rail) return;
+
+  //   rail.feeds.alerts.push(...alerts);
+  // });
+
+  return railwaysData;
+};
+
+export const alertFilter = (feeds: GtfsEntity[]) => {
+  return feeds.reduce((obj: { [key: string]: GtfsAlert[] }, entity) => {
+    entity.alert?.informedEntity?.forEach((ent) => {
+      const { routeId } = ent;
+
+      if (entity.id.includes("alert") && routeId) {
         if (!obj[routeId]) {
           obj[routeId] = [];
         }
 
-        if (!entity.alert) return;
+        if (!entity.alert) return obj;
 
         obj[routeId].push(entity.alert);
       }
@@ -116,4 +169,24 @@ export const plannedWorkFilter = (feed: GtfsEntity[]) => {
 
     return obj;
   }, {});
+};
+
+export const addAlerts = (
+  alertToAdd: { [key: string]: GtfsAlert[] },
+  railwaysCSV: {
+    metroNorth: Railway[];
+    longIsland: Railway[];
+  },
+) => {
+  Object.entries(alertToAdd).forEach(([key, alerts]) => {
+    const rail = railwaysCSV.longIsland.find(
+      (railway: any) => String(railway.route_id) === key,
+    );
+
+    if (!rail) return;
+
+    rail.feeds.alerts.push(...alerts);
+  });
+
+  return;
 };

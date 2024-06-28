@@ -1,7 +1,8 @@
 import {
+  alertFilter,
   fetchRailwayData,
-  getRailways,
   plannedWorkFilter,
+  railwayCSVData,
 } from "./railway-helpers";
 
 export const getRailwayAlerts = async () => {
@@ -13,98 +14,44 @@ export const getRailwayAlerts = async () => {
       throw new Error("");
     }
 
-    const railways = await getRailways();
+    const railwaysData = await railwayCSVData();
 
-    if (!railways) {
+    if (!railwaysData) {
       throw new Error("Something went wrong readng railways csv");
     }
 
     // ***** Long Island *****
-    const longIslandPlannedWork = plannedWorkFilter(longIslandFeed);
+    plannedWorkFilter(longIslandFeed, railwaysData);
+    const longIslandAlerts = alertFilter(longIslandFeed);
 
-    Object.entries(longIslandPlannedWork).forEach(([routeId, alerts]) => {
-      const rail = railways.longIsland.find(
-        (railway: any) => String(railway.route_id) === routeId,
-      );
-
-      if (!rail) return;
-
-      rail.feeds.plannedWork.push(...alerts);
-    });
-    console.log({ feed: longIslandPlannedWork[0] });
-
-    // Alerts
-    const longIslandAlerts = longIslandFeed.reduce((obj, entity) => {
-      entity.alert?.informedEntity?.forEach((ent) => {
-        const { routeId } = ent;
-
-        if (entity.id.includes("alert") && routeId) {
-          if (!obj[routeId]) {
-            obj[routeId] = [];
-          }
-
-          obj[routeId].push(entity.alert);
-        }
-      });
-
-      return obj;
-    }, {} as any);
-
-    Object.entries(longIslandAlerts).forEach(([key, value]) => {
-      const rail = railways.longIsland.find(
+    Object.entries(longIslandAlerts).forEach(([key, alerts]) => {
+      const rail = railwaysData.longIsland.find(
         (railway: any) => String(railway.route_id) === key,
       );
 
       if (!rail) return;
 
-      rail.feeds.alerts.push(...(value as any[]));
+      rail.feeds.alerts.push(...alerts);
     });
 
     // ***** Metro North *****
-    // Planned Work
-    const metroNorthPlannedWork = plannedWorkFilter(metroNorthFeed);
+    plannedWorkFilter(metroNorthFeed, railwaysData);
+    const metroNorthAlerts = alertFilter(metroNorthFeed);
 
-    Object.entries(metroNorthPlannedWork).forEach(([key, value]) => {
-      const rail = railways.metroNorth.find(
+    Object.entries(metroNorthAlerts).forEach(([key, alerts]) => {
+      const rail = railwaysData.metroNorth.find(
         (railway: any) => String(railway.route_id) === key,
       );
 
       if (!rail) return;
 
-      rail.feeds.plannedWork.push(...(value as any[]));
-    });
-
-    // Alerts
-    const metroNorthAlerts = metroNorthFeed.reduce((obj, entity) => {
-      entity.alert?.informedEntity?.forEach((ent) => {
-        const { routeId } = ent;
-
-        if (entity.id.includes("alert") && routeId) {
-          if (!obj[routeId]) {
-            obj[routeId] = [];
-          }
-
-          obj[routeId].push(entity.alert);
-        }
-      });
-
-      return obj;
-    }, {} as any);
-
-    Object.entries(metroNorthAlerts).forEach(([key, value]) => {
-      const rail = railways.metroNorth.find(
-        (railway: any) => String(railway.route_id) === key,
-      );
-
-      if (!rail) return;
-
-      rail.feeds.alerts.push(...(value as any[]));
+      rail.feeds.alerts.push(...alerts);
     });
 
     return {
-      railways,
-      // longIslandFeed: longIslandFeed,
-      // metroNorthFeed: metroNorthFeed,
+      railwaysData,
+      longIslandFeed: longIslandFeed,
+      metroNorthFeed: metroNorthFeed,
       // serviceStatusLI: {
       //   longIslandAlerts,
       //   longIslandPlannedWork,
