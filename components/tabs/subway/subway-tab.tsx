@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { AlertResponse, getSubwayAlerts } from "@/actions/subway-alerts";
+import { AlertResponse, onGetSubwayAlerts } from "@/actions/subway-alerts";
 
 import { SubwayStatusCard } from "./subway-status-card";
 
@@ -19,7 +19,7 @@ export const SubwayTab = () => {
 
   const fetchData = async () => {
     try {
-      const subwayAlerts = await getSubwayAlerts();
+      const subwayAlerts = await onGetSubwayAlerts();
 
       if (!subwayAlerts) {
         throw new Error("Something went wrong");

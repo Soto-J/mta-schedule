@@ -59,13 +59,13 @@ export type Railway = {
   route_type: number;
   route_color: string;
   route_text_color: string;
-  feeds: {
-    alerts: GtfsAlert[];
-    plannedWork: GtfsAlert[];
+  feeds?: {
+    alerts?: GtfsAlert[];
+    plannedWork?: GtfsAlert[];
   };
 };
 
-export const railwayCSVData = async () => {
+export const getRailwayRoutes = async () => {
   try {
     const metroNorth = await readRailwayFile(
       `public/csv/long-island/routes.txt`,
@@ -97,8 +97,7 @@ const readRailwayFile = async (file: string) => {
   return fileContent.data;
 };
 
-// Filters
-export const plannedWorkFilter = (
+export const addPlannedWork = (
   feed: GtfsEntity[],
   railwaysData: {
     metroNorth: Railway[];
@@ -106,6 +105,7 @@ export const plannedWorkFilter = (
   },
 ) => {
   // Create hash and filter by planned work
+  // console.log({ feed });
   const filteredPlannedWork = feed.reduce(
     (obj: { [key: string]: GtfsAlert[] }, entity) => {
       entity.alert?.informedEntity?.forEach((ie) => {
@@ -126,67 +126,130 @@ export const plannedWorkFilter = (
     },
     {},
   );
+  // console.log({ filteredPlannedWork });
 
   // Push planned_work into railwaycsv
   Object.entries(filteredPlannedWork).forEach(([routeId, plannedWorks]) => {
     const rail = railwaysData.longIsland.find(
-      (railway: any) => String(railway.route_id) === routeId,
+      (railway) => String(railway.route_id) === routeId,
     );
 
     if (!rail) return;
+
+    if (!rail.feeds) {
+      rail.feeds = { plannedWork: [] };
+    }
+
+    if (!rail.feeds.plannedWork) {
+      rail.feeds.plannedWork = [];
+    }
 
     rail.feeds.plannedWork.push(...plannedWorks);
   });
 
-  // Object.entries(filteredEntities).forEach(([routeId, alerts]) => {
-  //   const rail = railwaysCSV.longIsland.find(
-  //     (railway) => String(railway.route_id) === routeId,
-  //   );
-
-  //   if (!rail) return;
-
-  //   rail.feeds.alerts.push(...alerts);
-  // });
-
-  return railwaysData;
-};
-
-export const alertFilter = (feeds: GtfsEntity[]) => {
-  return feeds.reduce((obj: { [key: string]: GtfsAlert[] }, entity) => {
-    entity.alert?.informedEntity?.forEach((ent) => {
-      const { routeId } = ent;
-
-      if (entity.id.includes("alert") && routeId) {
-        if (!obj[routeId]) {
-          obj[routeId] = [];
-        }
-
-        if (!entity.alert) return obj;
-
-        obj[routeId].push(entity.alert);
-      }
-    });
-
-    return obj;
-  }, {});
+  // console.log(railwaysData.metroNorth);
 };
 
 export const addAlerts = (
-  alertToAdd: { [key: string]: GtfsAlert[] },
-  railwaysCSV: {
+  feeds: GtfsEntity[],
+  railwaysData: {
     metroNorth: Railway[];
     longIsland: Railway[];
   },
 ) => {
-  Object.entries(alertToAdd).forEach(([key, alerts]) => {
-    const rail = railwaysCSV.longIsland.find(
-      (railway: any) => String(railway.route_id) === key,
+  // Create hash and filter by alerts
+  const filteredAlerts = feeds.reduce(
+    (obj: { [key: string]: GtfsAlert[] }, entity) => {
+      entity.alert?.informedEntity?.forEach((ent) => {
+        const { routeId } = ent;
+
+        if (entity.id.includes("alert") && routeId) {
+          if (!obj[routeId]) {
+            obj[routeId] = [];
+          }
+
+          if (!entity.alert) return obj;
+
+          obj[routeId].push(entity.alert);
+        }
+      });
+
+      return obj;
+    },
+    {},
+  );
+  // console.log(filteredAlerts);
+
+  Object.entries(filteredAlerts).forEach(([routeId, alerts]) => {
+    const rail = railwaysData.longIsland.find(
+      (railway) => String(railway.route_id) === routeId,
     );
 
     if (!rail) return;
 
+    if (!rail.feeds) {
+      rail.feeds = {};
+    }
+
+    if (!rail.feeds.alerts) {
+      rail.feeds.alerts = [];
+    }
+
     rail.feeds.alerts.push(...alerts);
   });
 
-  return;
+  // console.log(railwaysData.longIsland);
 };
+
+// const processFeed = (
+//   feed: GtfsEntity[],
+//   railwaysData: {
+//     metroNorth: Railway[];
+//     longIsland: Railway[];
+//   },
+//   feedType: "plannedWork" | "alerts",
+// ) => {
+//   const filteredFeed = feed.reduce(
+//     (acc: { [key: string]: GtfsAlert[] }, entity) => {
+//       if (!entity.alert) return acc;
+
+//       entity.alert.informedEntity?.forEach(({ routeId }) => {
+//         if (routeId && entity.id.includes(feedType)) {
+//           if (!acc[routeId]) acc[routeId] = [];
+
+//           if (!entity.alert) return acc;
+
+//           acc[routeId].push(entity.alert);
+//         }
+//       });
+
+//       return acc;
+//     },
+//     {},
+//   );
+
+//   Object.entries(filteredFeed).forEach(([routeId, alerts]) => {
+//     const railway = railwaysData.find(
+//       (railway) => String(railway.route_id) === routeId,
+//     );
+//     if (railway) {
+//       railway.feeds[feedType].push(...alerts);
+//     }
+//   });
+// };
+
+// export const addPW = (
+//   feed: GtfsEntity[],
+//   railwaysData: {
+//     metroNorth: Railway[];
+//     longIsland: Railway[];
+//   },
+// ) => processFeed(feed, railwaysData, "plannedWork");
+
+// export const addA = (
+//   feed: GtfsEntity[],
+//   railwaysData: {
+//     metroNorth: Railway[];
+//     longIsland: Railway[];
+//   },
+// ) => processFeed(feed, railwaysData, "alerts");

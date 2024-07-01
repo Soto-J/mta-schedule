@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 
+import { Railway } from "@/lib/railway-helpers";
+import { onGetRailwayAlerts } from "@/actions/get-railways";
+
 import { LongIslandRailRoad } from "./long-island-rail-road";
 import { MetroNorthRailRoad } from "./metro-north-rail-road";
-import { Railway, getRailways } from "@/lib/railway-helpers";
 
 export const RailwayTab = () => {
-  const [railData, setRailData] = useState<{
-    metroNorth: Railway[];
-    longIsland: Railway[];
-  }>();
+  const [railData, setRailData] = useState<any>();
 
   useEffect(() => {
-    getRailAlerts();
+    alerts();
   }, []);
 
-  const getRailAlerts = async () => {
+  const alerts = async () => {
     try {
-      const response = await getRailways();
+      const response = await onGetRailwayAlerts();
 
       if (!response) {
         throw new Error("Something went wrong");

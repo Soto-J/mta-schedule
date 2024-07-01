@@ -2,19 +2,15 @@
 
 import { BusFront, TrainTrack, TramFront } from "lucide-react";
 
-import { AlertResponse } from "@/actions/subway-alerts";
-
 import { SubwayTab } from "./subway/subway-tab";
 import { BusTab } from "./bus/bus-tab";
 import { RailwayTab } from "./rail/railway-tab";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type HomeTabsProps = {
-  subwayAlerts?: AlertResponse;
-};
+type HomeTabsProps = {};
 
-export const HomeTabs = ({ subwayAlerts }: HomeTabsProps) => {
+export const HomeTabs = ({}: HomeTabsProps) => {
   return (
     <Tabs defaultValue="subway" className="mx-auto max-w-xl shadow-xl">
       <TabsList className="h-15 grid grid-cols-3">

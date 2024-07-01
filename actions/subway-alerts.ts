@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { FilteredAlert, GtfsAlert, GtfsEntity } from "@/lib/subway-helpers";
 
-import { subwayAlerts } from "@/lib/subway-service";
+import { getSubwayAlerts } from "@/lib/subway-service";
 
 export type AlertResponse = {
   delayAlerts: FilteredAlert;
@@ -15,16 +15,16 @@ export type AlertResponse = {
   entities: GtfsEntity;
 };
 
-export const getSubwayAlerts = async (): Promise<AlertResponse> => {
+export const onGetSubwayAlerts = async (): Promise<AlertResponse> => {
   try {
-    const alerts = await subwayAlerts();
+    const alerts = await getSubwayAlerts();
 
     if (!alerts) {
-      throw new Error("Unable to fetch subway alerts.");
+      throw new Error("Unable to fetch Subway Alerts.");
     }
 
     revalidatePath("/");
-
+    
     return JSON.parse(JSON.stringify(alerts));
   } catch (error) {
     throw error;

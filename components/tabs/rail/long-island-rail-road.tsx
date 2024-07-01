@@ -40,14 +40,14 @@ export const LongIslandRailRoad = ({ railways }: LongIslandRailRoadProps) => {
               </DialogHeader>
 
               <div className="flex flex-col space-y-2">
-                {railway?.feeds?.alerts.map((alert, i) => (
+                {railway?.feeds?.alerts?.map((alert, i) => (
                   <div key={i}>
-                    {/* <DialogTitle>
-                      {alert.headerText.translation[0].text}
+                    <DialogTitle>
+                      {alert.headerText?.translation?.[0].text}
                     </DialogTitle>
                     <DialogDescription className="mt-2">
-                      {alert.descriptionText?.translation[0].text}
-                    </DialogDescription> */}
+                      {alert.descriptionText?.translation?.[0].text}
+                    </DialogDescription>
                   </div>
                 ))}
               </div>

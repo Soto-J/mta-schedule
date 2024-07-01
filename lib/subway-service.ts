@@ -7,7 +7,7 @@ import {
   plannedWorkFilterTest,
 } from "./subway-helpers";
 
-export const subwayAlerts = async () => {
+export const getSubwayAlerts = async () => {
   try {
     const feed = await fetchSubwayData();
 
