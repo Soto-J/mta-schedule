@@ -75,26 +75,28 @@ export const getRailwayRoutes = async () => {
       `public/csv/long-island/routes.txt`,
     );
 
-    return {
-      metroNorth,
-      longIsland,
-    };
+    return { metroNorth, longIsland };
   } catch (error) {
     throw error;
   }
 };
 
 const readRailwayFile = async (file: string) => {
-  const filePath = path.join(process.cwd(), file);
+  try {
+    const filePath = path.join(process.cwd(), file);
+    const fileContent = await fs.readFile(filePath, "utf8");
 
-  const fileContent = Papa.parse<Railway>(await fs.readFile(filePath, "utf8"), {
-    header: true,
-    dynamicTyping: true,
-  });
+    const parsedContent = Papa.parse<Railway>(fileContent, {
+      header: true,
+      dynamicTyping: true,
+    });
 
-  fileContent.data.pop(); // Remove last element, which is empty
+    parsedContent.data.pop(); // Remove last element, which is empty
 
-  return fileContent.data;
+    return parsedContent.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const addPlannedWork = (
