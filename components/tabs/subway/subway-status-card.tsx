@@ -19,12 +19,18 @@ export const SubwayStatusCard = ({ title, alertFeeds }: StatusCardProps) => {
       </CardHeader>
 
       <CardContent>
-        <div className="grid grid-cols-[20%_20%_20%_20%] gap-2">
+        <div className="grid grid-cols-4 gap-2">
           {alertFeeds &&
             Object.entries(alertFeeds)?.map(([subwayLine, alerts]) => {
               if (excludeSubwayLines.includes(subwayLine)) return null;
 
-              return <SubwayLine line={subwayLine} alerts={alerts} />;
+              return (
+                <SubwayLine
+                  key={subwayLine}
+                  line={subwayLine}
+                  alerts={alerts}
+                />
+              );
             })}
         </div>
       </CardContent>
