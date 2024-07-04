@@ -68,7 +68,7 @@ export type Railway = {
 export const getRailwayRoutes = async () => {
   try {
     const metroNorth = await readRailwayFile(
-      `public/csv/long-island/routes.txt`,
+      `public/csv/metro-north/routes.txt`,
     );
 
     const longIsland = await readRailwayFile(
@@ -99,13 +99,13 @@ const readRailwayFile = async (file: string) => {
 
 export const addPlannedWork = (
   feed: GtfsEntity[],
+  railType: "metroNorth" | "longIsland",
   railwaysData: {
     metroNorth: Railway[];
     longIsland: Railway[];
   },
 ) => {
   // Create hash and filter by planned work
-  // console.log({ feed });
   const filteredPlannedWork = feed.reduce(
     (obj: { [key: string]: GtfsAlert[] }, entity) => {
       entity.alert?.informedEntity?.forEach((ie) => {
@@ -126,11 +126,10 @@ export const addPlannedWork = (
     },
     {},
   );
-  // console.log({ filteredPlannedWork });
 
   // Push planned_work into railwaycsv
   Object.entries(filteredPlannedWork).forEach(([routeId, plannedWorks]) => {
-    const rail = railwaysData.longIsland.find(
+    const rail = railwaysData[`${railType}`].find(
       (railway) => String(railway.route_id) === routeId,
     );
 
@@ -146,12 +145,11 @@ export const addPlannedWork = (
 
     rail.feeds.plannedWork.push(...plannedWorks);
   });
-
-  // console.log(railwaysData.metroNorth);
 };
 
 export const addAlerts = (
   feeds: GtfsEntity[],
+  railType: "metroNorth" | "longIsland",
   railwaysData: {
     metroNorth: Railway[];
     longIsland: Railway[];
@@ -178,10 +176,9 @@ export const addAlerts = (
     },
     {},
   );
-  // console.log(filteredAlerts);
 
   Object.entries(filteredAlerts).forEach(([routeId, alerts]) => {
-    const rail = railwaysData.longIsland.find(
+    const rail = railwaysData[`${railType}`].find(
       (railway) => String(railway.route_id) === routeId,
     );
 
@@ -197,8 +194,6 @@ export const addAlerts = (
 
     rail.feeds.alerts.push(...alerts);
   });
-
-  // console.log(railwaysData.longIsland);
 };
 
 // const processFeed = (

@@ -6,7 +6,7 @@ import { FilteredAlert, GtfsAlert, GtfsEntity } from "@/lib/subway-helpers";
 
 import { getSubwayAlerts } from "@/lib/subway-service";
 
-export type AlertResponse = {
+export type GetSubwayAlertsResponse = {
   delayAlerts: FilteredAlert;
   plannedWorkAlerts: FilteredAlert;
   noActiveAlerts: FilteredAlert;
@@ -15,7 +15,7 @@ export type AlertResponse = {
   entities: GtfsEntity;
 };
 
-export const onGetSubwayAlerts = async (): Promise<AlertResponse> => {
+export const onGetSubwayAlerts = async (): Promise<GetSubwayAlertsResponse> => {
   try {
     const alerts = await getSubwayAlerts();
 
@@ -24,9 +24,10 @@ export const onGetSubwayAlerts = async (): Promise<AlertResponse> => {
     }
 
     revalidatePath("/");
-    
+
     return JSON.parse(JSON.stringify(alerts));
   } catch (error) {
+    console.log(`[Internal Error]: onGetSubwayAlerts`);
     throw error;
   }
 };

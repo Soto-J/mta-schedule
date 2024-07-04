@@ -13,6 +13,7 @@ type HomeTabsProps = {};
 export const HomeTabs = ({}: HomeTabsProps) => {
   return (
     <Tabs defaultValue="subway" className="mx-auto max-w-xl shadow-xl">
+      {/* Triggers */}
       <TabsList className="h-15 grid grid-cols-3">
         <TabsTrigger value="subway" className="flex flex-col gap-1 pb-2">
           <span>Subway</span>
@@ -29,7 +30,8 @@ export const HomeTabs = ({}: HomeTabsProps) => {
           <TrainTrack />
         </TabsTrigger>
       </TabsList>
-
+      
+      {/* Contents */}
       <div className="rounded bg-muted pb-0.5">
         <TabsContent value="subway">
           <SubwayTab />
@@ -46,19 +48,3 @@ export const HomeTabs = ({}: HomeTabsProps) => {
     </Tabs>
   );
 };
-
-// function extractPlannedWorkAlerts(feed: any[]): {
-//   [key: string]: GtfsRealtimeBindings.transit_realtime.IAlert[];
-// } {
-//   return feed.reduce((obj, entity) => {
-//     try {
-//       if (entity.alert?.informedEntity) {
-//         processInformedEntities(entity.alert.informedEntity, obj);
-//       }
-//     } catch (error) {
-//       console.error('Error processing entity:', entity, error);
-//     }
-
-//     return obj;
-//   }, {});
-// }

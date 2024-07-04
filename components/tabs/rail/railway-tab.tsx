@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { Railway } from "@/lib/railway-helpers";
-import { onGetRailwayAlerts } from "@/actions/get-railways";
+import { GetRailwayResponse, onGetRailwayAlerts } from "@/actions/get-railways";
 
-import { LongIslandRailRoad } from "./long-island-rail-road";
-import { MetroNorthRailRoad } from "./metro-north-rail-road";
+import { RailwayList } from "./railway-list";
 
 export const RailwayTab = () => {
-  const [railData, setRailData] = useState<any>();
+  const [railData, setRailData] = useState<GetRailwayResponse>();
 
   useEffect(() => {
     alerts();
@@ -28,10 +26,11 @@ export const RailwayTab = () => {
     }
   };
 
+  console.log({ railData });
   return (
     <div className="grid grid-cols-2">
-      <LongIslandRailRoad railways={railData?.longIsland} />
-      <MetroNorthRailRoad railways={railData?.metroNorth} />
+      <RailwayList railways={railData?.longIsland || []} title="Long Island" />
+      <RailwayList railways={railData?.metroNorth || []} title="Metro North" />
     </div>
   );
 };

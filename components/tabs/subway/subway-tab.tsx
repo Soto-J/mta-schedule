@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 
-import { AlertResponse, onGetSubwayAlerts } from "@/actions/subway-alerts";
+import {
+  GetSubwayAlertsResponse,
+  onGetSubwayAlerts,
+} from "@/actions/subway-alerts";
 
 import { SubwayStatusCard } from "./subway-status-card";
 
 export const SubwayTab = () => {
-  const [subwayData, setSubwayData] = useState<AlertResponse>();
+  const [subwayData, setSubwayData] = useState<GetSubwayAlertsResponse>();
 
   useEffect(() => {
     fetchData();

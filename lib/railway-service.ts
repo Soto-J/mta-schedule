@@ -20,11 +20,11 @@ export const getRailwayAlerts = async () => {
       throw new Error("Something went wrong readng railways csv");
     }
 
-    addPlannedWork(longIslandFeed, railwayRoutes);
-    addAlerts(longIslandFeed, railwayRoutes);
+    addPlannedWork(longIslandFeed, "longIsland", railwayRoutes);
+    addAlerts(longIslandFeed, "longIsland", railwayRoutes);
 
-    addPlannedWork(metroNorthFeed, railwayRoutes);
-    addAlerts(metroNorthFeed, railwayRoutes);
+    addPlannedWork(metroNorthFeed, "metroNorth", railwayRoutes);
+    addAlerts(metroNorthFeed, "metroNorth", railwayRoutes);
 
     return railwayRoutes;
   } catch (error) {
