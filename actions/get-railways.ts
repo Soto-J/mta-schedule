@@ -17,7 +17,7 @@ export const onGetRailwayAlerts = async (): Promise<GetRailwayResponse> => {
       throw new Error("Unable to fetch Railway Alerts.");
     }
 
-    revalidatePath("/");
+    // revalidatePath("/");
 
     return JSON.parse(JSON.stringify(alerts));
   } catch (error) {
