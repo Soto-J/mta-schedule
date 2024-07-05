@@ -80,6 +80,7 @@ const readRailwayFile = async (file: string) => {
   try {
     const filePath = path.join(process.cwd(), file);
 
+    console.log(`PATH: ${filePath}`);
     const fileContent = await fs.readFile(filePath, "utf8");
 
     const parsedContent = Papa.parse<Railway>(fileContent, {
@@ -88,7 +89,7 @@ const readRailwayFile = async (file: string) => {
     });
 
     parsedContent.data.pop(); // Remove last element, which is empty
-    
+
     return parsedContent.data;
   } catch (error) {
     throw error;
