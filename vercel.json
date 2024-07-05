@@ -1,6 +1,6 @@
 {
   "functions": {
-    "includeFiles": "temp/**",
+    "includeFiles": { "files": "temp/**" },
     "api/file.js": {
       "includeFiles": "greet.cjs"
     }
