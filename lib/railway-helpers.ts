@@ -92,7 +92,11 @@ const readRailwayFile = async (file: string) => {
 
     return parsedContent.data;
   } catch (error) {
-    throw new Error(`ATTEMPTED TO GET FILE PATH: ${filePath}`);
+    if (error instanceof Error) {
+      throw new Error(
+        `ATTEMPTED TO GET FILE PATH: ${filePath}. [Error]: ${error}`,
+      );
+    }
     throw error;
   }
 };

@@ -1,8 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    nftTracing: true,
-  },
-};
+const nextConfig = {};
 
 module.exports = nextConfig;
