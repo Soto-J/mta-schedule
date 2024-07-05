@@ -73,7 +73,7 @@ export const getRailwayRoutes = async () => {
     const longIsland = await readRailwayFile(
       `/temp/csv/long-island/routes.txt`,
     );
-
+    console.log(longIsland);
     return { metroNorth, longIsland };
   } catch (error) {
     throw error;
