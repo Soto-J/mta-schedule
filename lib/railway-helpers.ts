@@ -67,8 +67,8 @@ export type Railway = {
 
 export const getRailwayRoutes = async () => {
   try {
-    const metroNorth = await readRailwayFile(`/lib/csv/metro-north/routes.txt`);
-    const longIsland = await readRailwayFile(`/lib/csv/long-island/routes.txt`);
+    const metroNorth = await readRailwayFile(`/app/csv/metro-north/routes.txt`);
+    const longIsland = await readRailwayFile(`/app/csv/long-island/routes.txt`);
 
     return { metroNorth, longIsland };
   } catch (error) {
