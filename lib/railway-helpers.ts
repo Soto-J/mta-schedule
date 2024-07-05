@@ -77,9 +77,9 @@ export const getRailwayRoutes = async () => {
 };
 
 const readRailwayFile = async (file: string) => {
-  try {
-    const filePath = path.join(process.cwd(), file);
+  const filePath = path.join(process.cwd(), file);
 
+  try {
     console.log(`PATH: ${filePath}`);
     const fileContent = await fs.readFile(filePath, "utf8");
 
@@ -92,6 +92,7 @@ const readRailwayFile = async (file: string) => {
 
     return parsedContent.data;
   } catch (error) {
+    throw new Error(`ATTEMPTED TO GET FILE PATH: ${filePath}`);
     throw error;
   }
 };
