@@ -1,8 +1,7 @@
 {
   "functions": {
-    "includeFiles": { "files": "temp/**" },
-    "api/file.js": {
-      "includeFiles": "greet.cjs"
+    "render": {
+      "includeFiles": "temp/**"
     }
   }
 }
