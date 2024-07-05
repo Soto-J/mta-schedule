@@ -28,8 +28,6 @@ export const SubwayTab = () => {
         throw new Error("Something went wrong");
       }
 
-      console.log({ subwayAlerts });
-
       setSubwayData(subwayAlerts);
     } catch (error) {
       console.log({ error });

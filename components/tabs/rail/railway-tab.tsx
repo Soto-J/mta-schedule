@@ -15,11 +15,13 @@ export const RailwayTab = () => {
     try {
       const response = await onGetRailwayAlerts();
 
+      console.log({ response });
+
       if (!response) {
         throw new Error("Something went wrong");
       }
 
-      console.log({ response });
+      // console.log({ response });
       setRailData(response);
     } catch (error) {
       console.log({ error });
