@@ -83,7 +83,9 @@ export const getRailwayRoutes = async () => {
 
 const readRailwayFile = async (file: string) => {
   try {
-    const filePath = path.join(process.cwd(), file);
+    const filePath = path.join(__dirname, file);
+    console.log("Reading file from path:", filePath);
+
     const fileContent = await fs.readFile(filePath, "utf8");
 
     const parsedContent = Papa.parse<Railway>(fileContent, {
