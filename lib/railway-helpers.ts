@@ -77,10 +77,10 @@ export const getRailwayRoutes = async () => {
 };
 
 const readRailwayFile = async (file: string) => {
-  const filePath = path.join(process.cwd(), file);
-
+  const filePath = path.join(process.cwd(), file); // Deployed filePath is giving me /var/task/lib/csv/metro-north/routes.txt
   try {
     console.log(`PATH: ${filePath}`);
+
     const fileContent = await fs.readFile(filePath, "utf8");
 
     const parsedContent = Papa.parse<Railway>(fileContent, {
