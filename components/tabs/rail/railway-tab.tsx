@@ -26,11 +26,14 @@ export const RailwayTab = () => {
     }
   };
 
-  console.log({ railData });
+  if (!railData) {
+    return <h1>Loading!</h1>;
+  }
+
   return (
     <div className="grid grid-cols-2">
-      <RailwayList railways={railData?.longIsland || []} title="Long Island" />
-      <RailwayList railways={railData?.metroNorth || []} title="Metro North" />
+      <RailwayList railways={railData.longIsland || []} title="Long Island" />
+      <RailwayList railways={railData.metroNorth || []} title="Metro North" />
     </div>
   );
 };
