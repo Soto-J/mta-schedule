@@ -5,7 +5,7 @@ const nextConfig = {
   //     "/lib/railway-helpers.ts": ["./temp/**/*"],
   //   },
   // },
-  output: "standalone/temp",
+  output: "standalone/csv",
 };
 
 module.exports = nextConfig;
