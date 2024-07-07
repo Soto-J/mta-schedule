@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    outputFileTracingRoot: path.join(process.cwd(), "temp/csv"),
+    outputFileTracingIncludes: {
+      "/lib/railway-helpers.ts": ["./temp/**/*"],
+    },
   },
 };
 
