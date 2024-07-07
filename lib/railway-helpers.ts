@@ -4,6 +4,8 @@ import Papa from "papaparse";
 import path from "path";
 import fs from "fs/promises";
 
+import { MNRoutes, LIRoutes, Railway } from "./railway-routes";
+
 import axios, { AxiosRequestConfig } from "axios";
 
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
@@ -52,57 +54,39 @@ export const fetchRailwayData = async (
   }
 };
 
-export type Railway = {
-  route_id: string;
-  agency_id?: string;
-  route_long_name: string;
-  route_type: number;
-  route_color: string;
-  route_text_color: string;
-  feeds?: {
-    alerts?: GtfsAlert[];
-    plannedWork?: GtfsAlert[];
-  };
-};
-
 export const getRailwayRoutes = async () => {
   try {
-    const metroNorth = await readRailwayFile(
-      `public/csv/metro-north/routes.txt`,
-    );
-    const longIsland = await readRailwayFile(
-      `public/csv/long-island/routes.txt`,
-    );
-    console.log(longIsland);
-    return { metroNorth, longIsland };
+    // const metroNorth = await readRailwayFile(
+    //   `public/csv/metro-north/routes.txt`,
+    // );
+    // const longIsland = await readRailwayFile(
+    //   `public/csv/long-island/routes.txt`,
+    // );
+
+    // return { metroNorth, longIsland };
+
+    return { metroNorth: MNRoutes, longIsland: LIRoutes };
   } catch (error) {
     throw error;
   }
 };
 
 const readRailwayFile = async (file: string) => {
-  const filePath = path.join(process.cwd(), file); // Deployed filePath is giving me /var/task/lib/csv/metro-north/routes.txt
-  try {
-    console.log(`PATH: ${filePath}`);
-
-    const fileContent = await fs.readFile(filePath, "utf8");
-
-    const parsedContent = Papa.parse<Railway>(fileContent, {
-      header: true,
-      dynamicTyping: true,
-    });
-
-    parsedContent.data.pop(); // Remove last element, which is empty
-
-    return parsedContent.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(
-        `ATTEMPTED TO GET FILE PATH: ${filePath}. [Error]: ${error}`,
-      );
-    }
-    throw error;
-  }
+  // const filePath = path.join(process.cwd(), file); // Deployed filePath is giving me /var/task/lib/csv/metro-north/routes.txt
+  // try {
+  //   console.log(`PATH: ${filePath}`);
+  //   const fileContent = await fs.readFile(filePath, "utf8");
+  //   const parsedContent = Papa.parse<Railway>(fileContent, {
+  //     header: true,
+  //     dynamicTyping: true,
+  //   });
+  //   parsedContent.data.pop(); // Remove last element, which is empty
+  //   return parsedContent.data;
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     throw new Error(`[Internale Error] ReadRailwayFile: ${error.message}`);
+  //   }
+  // }
 };
 
 export const addPlannedWork = (

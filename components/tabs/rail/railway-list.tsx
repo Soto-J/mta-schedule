@@ -1,4 +1,4 @@
-import { Railway } from "@/lib/railway-helpers";
+import { Railway } from "@/lib/railway-routes";
 
 import { RailwayContent } from "./railway-content";
 
@@ -21,7 +21,7 @@ export const RailwayList = ({ railways, title }: RailwayListProps) => {
 
       <CardContent className="space-y-3">
         {railways.map((railway, idx) => (
-          <Dialog key={railway.route_id}>
+          <Dialog key={`${railway.route_id}-${railway.route_long_name}`}>
             {/* Trigger */}
             <DialogTrigger className="w-full text-start">
               {railway.route_long_name}
